@@ -1,4 +1,6 @@
 import type { Scenario } from "@/engine/types";
+// Mock photo. Swap in a real one by replacing this file (any image format works).
+import suitcasePhoto from "@/assets/evidence/suitcase.svg";
 
 // Second scenario, from the original brief. All figures are illustrative.
 export const baggage: Scenario = {
@@ -70,9 +72,10 @@ export const baggage: Scenario = {
         kind: "photo",
         header: { title: "IMG_2031.jpg", subtitle: "Taken 16 Nov 2026, Changi Airport" },
         rows: [],
+        image: suitcasePhoto,
         marks: [
-          { x: 10, y: 66, w: 26, h: 26, tag: "Broken wheel", field: "photo" },
-          { x: 38, y: 2, w: 30, h: 22, tag: "Bent handle", field: "damage" },
+          { x: 49, y: 84, w: 22, h: 15, tag: "Broken wheel", field: "photo" },
+          { x: 30, y: 8, w: 22, h: 13, tag: "Bent handle", field: "damage" },
         ],
         confirm: "Photo received. It shows a broken wheel and a bent handle, which matches what you told me.",
         fills: [{ field: "photo", value: "Matches your description" }],

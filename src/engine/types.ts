@@ -42,7 +42,9 @@ export type Doc = {
   kind: "form" | "receipt" | "photo";
   header: { title: string; subtitle: string; ref?: string };
   rows: DocRow[];
-  /** Photo documents: marked-up regions (percentages of the photo box). */
+  /** Photo documents: the image (bundled asset URL) ... */
+  image?: string;
+  /** ... and marked-up regions, as percentages of the image. */
   marks?: { x: number; y: number; w: number; h: number; tag: string; field?: string }[];
   /** AI's plain-words confirmation once attached. */
   confirm: string;

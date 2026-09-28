@@ -94,7 +94,6 @@ export const payableOf = (lines: LineState[] | null, excess: number) =>
 
 export const scenarioById = (id: string) => SCENARIOS.find((s) => s.id === id) ?? SCENARIOS[0];
 
-export const otherScenario = (s: Scenario) => SCENARIOS[(SCENARIOS.indexOf(s) + 1) % SCENARIOS.length];
 
 /** All documents a scenario can show, in evidence-list order. */
 export const allDocs = (s: Scenario) => [...s.evidence.docs, s.evidence.missing];

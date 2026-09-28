@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertCircle, Check, Clock, FileText, Luggage } from "lucide-react";
+import { AlertCircle, Check, Clock, FileText } from "lucide-react";
 import { actions, allDocs, useStore } from "@/engine/machine";
 import type { Doc } from "@/engine/types";
 import { cn } from "@/lib";
@@ -135,11 +135,11 @@ function Extract({ field, tag, delay, children }: { field: string; tag: string; 
   );
 }
 
-/** Photo evidence: an illustration standing in for the picture, with marked-up regions. */
+/** Photo evidence with the AI's marked-up regions. */
 function Photo({ doc }: { doc: Doc }) {
   return (
-    <div className="relative mt-4 h-[230px] overflow-hidden rounded-[8px] bg-gradient-to-b from-neutral-200 to-neutral-300">
-      <Luggage className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-neutral-500" size={190} strokeWidth={1} />
+    <div className="relative mt-4 aspect-[3/2] w-full overflow-hidden rounded-[8px] bg-neutral-200">
+      {doc.image && <img src={doc.image} alt={doc.header.title} draggable={false} className="absolute inset-0 h-full w-full object-cover" />}
       {doc.marks?.map((m, i) => (
         <motion.div
           key={i}
@@ -147,10 +147,16 @@ function Photo({ doc }: { doc: Doc }) {
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 + i * 0.3, duration: 0.35 }}
-          className="absolute rounded-[6px] border-2 border-regal bg-regal/10"
-          style={{ left: `${m.x + 20}%`, top: `${m.y + 6}%`, width: `${m.w}%`, height: `${m.h}%` }}
+          className="absolute rounded-[6px] border-2 border-white bg-regal/15 shadow-[0_0_0_2px_rgb(var(--regal))]"
+          style={{ left: `${m.x}%`, top: `${m.y}%`, width: `${m.w}%`, height: `${m.h}%` }}
         >
-          <span className="ai-gradient absolute -top-[18px] left-0 whitespace-nowrap rounded-t-[4px] px-1.5 text-[10px] font-semibold leading-[16px] text-white">
+          {/* label sits above the box, or below it when the box is near the top edge */}
+          <span
+            className={cn(
+              "ai-gradient absolute left-0 whitespace-nowrap rounded-[4px] px-1.5 text-[10px] font-semibold leading-[16px] text-white",
+              m.y < 20 ? "top-full mt-1" : "-top-[20px]"
+            )}
+          >
             {m.tag}
           </span>
         </motion.div>

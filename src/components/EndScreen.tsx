@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, RotateCcw } from "lucide-react";
-import { actions, otherScenario, payableOf, useStore } from "@/engine/machine";
+import { Check } from "lucide-react";
+import { actions, payableOf, useStore } from "@/engine/machine";
 import { mmss } from "@/components/Shared/ProgressRail";
 import { sgd } from "@/lib";
 
@@ -61,20 +61,12 @@ export function EndScreen() {
               ))}
             </ol>
 
-            <div className="mt-12 flex justify-center gap-3">
-              <button
-                onClick={() => actions.start(otherScenario(scenario).id)}
-                className="h-14 rounded-full bg-primary px-10 text-lg font-semibold text-white shadow-pop"
-              >
-                Try the other scenario
-              </button>
-              <button
-                onClick={() => actions.reset()}
-                className="flex h-14 items-center gap-2 rounded-full bg-page px-8 text-lg font-medium text-primary ring-1 ring-primary/25"
-              >
-                <RotateCcw size={18} /> Start over
-              </button>
-            </div>
+            <button
+              onClick={() => actions.openPicker()}
+              className="mt-12 h-16 rounded-full bg-primary px-12 text-xl font-semibold text-white shadow-pop"
+            >
+              Start another claim
+            </button>
           </motion.div>
         </motion.div>
       )}
