@@ -1,0 +1,64 @@
+/*
+ * Design tokens. PLACEHOLDER values until UOI brand colours and typeface are
+ * supplied. Swap them here; components only reference these variables through
+ * Tailwind classes (bg-brand, text-muted, border-line, ...).
+ * Colours are space-separated RGB so Tailwind opacity modifiers work.
+ */
+
+@font-face {
+  font-family: "Figtree Variable";
+  font-style: normal;
+  font-display: block;
+  font-weight: 300 900;
+  src: url("@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+:root {
+  /* Type */
+  --font-sans: "Figtree Variable", system-ui, sans-serif;
+  --text-xs: 13px;
+  --text-sm: 15px;
+  --text-base: 17px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 48px;
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 28px;
+
+  /* Neutrals */
+  --stage: 238 240 243;      /* backdrop behind both views */
+  --surface: 255 255 255;    /* panels */
+  --sunken: 246 247 249;     /* wells, table stripes */
+  --line: 222 226 232;       /* hairlines */
+  --ink: 20 27 38;           /* primary text */
+  --muted: 88 98 114;        /* secondary text */
+  --faint: 150 158 171;      /* placeholder / pending */
+
+  /* Brand (placeholder: deep navy) */
+  --brand: 18 42 94;
+  --brand-ink: 255 255 255;
+  --brand-soft: 229 235 247;
+
+  /* Signature: the live link between phone and desk */
+  --live: 0 128 124;
+  --live-soft: 214 241 238;
+
+  /* Semantic */
+  --limit: 176 96 0;         /* a policy limit changed the amount */
+  --limit-soft: 253 241 222;
+  --paid: 20 128 70;
+  --paid-soft: 222 243 230;
+
+  /* Chat */
+  --bubble-ai: 241 243 246;
+  --bubble-me: 18 42 94;
+  --bubble-me-ink: 255 255 255;
+
+  /* Phone hardware */
+  --device: 22 24 28;
+}
