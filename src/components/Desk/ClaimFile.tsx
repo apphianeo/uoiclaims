@@ -5,7 +5,7 @@ import { AiTag } from "@/components/Shared/Ai";
 export function ClaimFile() {
   const filled = FIELDS.filter((f) => f.value).length;
   return (
-    <section className="flex min-h-0 flex-col rounded-lg bg-page">
+    <section className="flex min-h-0 flex-col rounded-lg bg-page shadow-card">
       <header className="flex items-start justify-between gap-4 px-6 pb-4 pt-5">
         <div>
           <h3 className="text-lg font-semibold text-ink">Claim file</h3>

@@ -9,7 +9,7 @@ export function AssessmentCard() {
   const payable = subtotal - EXCESS;
 
   return (
-    <section className="grid grid-cols-[1fr_320px] overflow-hidden rounded-lg bg-page text-ink">
+    <section className="grid grid-cols-[1fr_320px] overflow-hidden rounded-lg bg-page text-ink shadow-card">
       <div className="min-w-0">
         <header className="flex items-center justify-between gap-4 px-6 pb-3 pt-5">
           <div className="flex items-center gap-3">

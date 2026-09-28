@@ -32,43 +32,44 @@
   --radius-lg: 24px;
   --radius-xl: 32px;
 
-  /* Brand (portal). Fills only: too dark for text on black. */
+  /* Brand (portal) */
   --primary: 0 94 184;       /* #005EB8 */
   --regal: 92 85 235;        /* #5C55EB */
   --accent: 240 146 82;      /* #F09252 */
 
-  /* Brand, lifted for text and icons on dark */
-  --primary-hi: 122 178 255;
-  --regal-hi: 166 160 255;
+  /* Brand as text/icon colour (same as brand on a light stage) */
+  --primary-hi: 0 94 184;
+  --regal-hi: 92 85 235;
 
-  /* AI gradient stops: the brand hues, lifted so they glow on black */
-  --ai-1: 90 160 255;
-  --ai-2: 150 130 255;
+  /* AI gradient stops: brand blue -> violet -> warm peach */
+  --ai-1: 0 94 184;
+  --ai-2: 92 85 235;
   --ai-3: 240 146 82;
 
-  /* Navy surfaces, three steps: stage < card < panel */
-  --night: 5 14 34;          /* stage */
-  --page: 10 22 48;          /* cards inside a panel, the phone screen */
-  --surface: 18 34 68;       /* panels, raised elements inside cards */
-  --chip: 30 50 92;          /* answer chips, tags */
-  --line: 40 60 102;
-  --info: 24 48 92;
+  /* Light, airy surfaces: stage < panel < card */
+  --night: 243 246 252;      /* stage */
+  --surface: 246 248 252;    /* panels; raised elements inside cards (portal bg-page) */
+  --page: 255 255 255;       /* cards, phone screen */
+  --chip: 236 242 252;       /* answer chips, tags */
+  --line: 228 233 242;
+  --info: 234 243 255;       /* portal bg-info */
 
-  /* Text on dark */
-  --ink: 232 237 247;
-  --muted: 160 176 206;
-  --faint: 112 130 168;
+  /* Text (portal) */
+  --ink: 33 33 33;
+  --muted: 104 110 124;
+  --faint: 146 152 166;
 
-  /* Status on dark (portal hues, lifted) */
-  --success: 110 214 160;
-  --success-bg: 14 52 52;
-  --caution: 255 190 92;     /* a policy limit changed the amount */
-  --caution-bg: 62 48 30;
-  --error: 248 113 113;
+  /* Status (portal) */
+  --success: 6 95 70;
+  --success-bg: 236 253 245;
+  --caution: 184 104 0;      /* a policy limit changed the amount */
+  --caution-bg: 255 244 224;
+  --error: 153 27 27;
 
   /* Phone hardware */
-  --device: 46 64 104;
+  --device: 222 228 238;
 
-  --shadow-card: 0 0 0 transparent;
-  --shadow-pop: 0 0 0 transparent;
+  /* Elevation: soft, blue-tinted (portal shadow-pop) */
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-pop: 0 18px 50px -18px rgb(0 94 184 / 0.20);
 }

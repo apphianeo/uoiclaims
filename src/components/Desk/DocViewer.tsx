@@ -5,7 +5,7 @@ import { cn } from "@/lib";
 /** Document viewer: a rendered document with the AI's extracted fields boxed. */
 export function DocViewer() {
   return (
-    <section className="flex min-h-0 flex-col rounded-lg bg-page text-ink">
+    <section className="flex min-h-0 flex-col rounded-lg bg-page text-ink shadow-card">
       <header className="flex items-center justify-between px-6 pb-3 pt-5">
         <h3 className="text-lg font-semibold">Evidence</h3>
         <span className="num text-xs text-muted">1 of 4 received</span>
@@ -30,7 +30,7 @@ export function DocViewer() {
 
       {/* document canvas */}
       <div className="relative mx-6 mb-6 flex-1 overflow-hidden rounded bg-surface p-5">
-        <div className="relative mx-auto h-full max-w-[520px] rounded-sm bg-white px-8 py-6 text-neutral-900 shadow-[0_8px_30px_rgb(0_0_0/0.35)]">
+        <div className="relative mx-auto h-full max-w-[520px] rounded-sm bg-white px-8 py-6 text-neutral-900 shadow-[0_6px_24px_rgb(0_40_100/0.10)]">
           <div className="flex items-start justify-between border-b border-neutral-200 pb-3">
             <div className="leading-tight">
               <p className="text-sm font-bold tracking-wide">Tourist Police Division</p>

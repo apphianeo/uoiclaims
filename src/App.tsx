@@ -28,6 +28,15 @@ export default function App() {
         style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${scale})` }}
       >
 
+        {/* soft pastel light in the brand hues: calm, friendly, never a wash */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(700px 500px at 8% 85%, rgb(var(--accent) / 0.16), transparent 70%), radial-gradient(800px 600px at 34% 40%, rgb(var(--regal) / 0.12), transparent 70%), radial-gradient(1000px 700px at 85% 10%, rgb(var(--primary) / 0.12), transparent 70%)",
+          }}
+        />
+
         <ProgressRail current={0} elapsed="0:42" />
 
         <main className="relative flex min-h-0 flex-1">
@@ -56,7 +65,7 @@ function LiveSeam() {
     <div className="relative w-px shrink-0">
       <div className="absolute inset-y-6 left-0 w-px bg-gradient-to-b from-transparent via-regal-hi/50 to-transparent" />
       <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
-        <span className="relative grid h-11 w-11 place-items-center rounded-full bg-surface">
+        <span className="relative grid h-11 w-11 place-items-center rounded-full bg-page shadow-pop">
           <span className="live-pulse ai-gradient h-3 w-3 rounded-full" />
         </span>
         <span className="whitespace-nowrap rounded-full bg-night px-2 text-2xs font-medium text-muted">Live</span>

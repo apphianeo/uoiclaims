@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { cn } from "@/lib";
-import logo from "@/assets/uoi-logo-white.png";
+import logo from "@/assets/uoi-logo.png";
 
 export const PHASES = ["Tell us", "Evidence", "Assessment", "Decision", "Paid"] as const;
 
@@ -21,7 +21,7 @@ export function ProgressRail({ current, elapsed }: Props) {
 
       {/* steps on a single track; the filled part carries the brand gradient */}
       <div className="relative mx-auto w-[820px]">
-        <div className="absolute left-[10%] right-[10%] top-[15px] h-[2px] rounded-full bg-line">
+        <div className="absolute left-[10%] right-[10%] top-[15px] h-[2px] rounded-full bg-page">
           <div className="ai-gradient h-full rounded-full" style={{ width: `${pct}%` }} />
         </div>
         <ol className="relative grid grid-cols-5">
@@ -33,9 +33,9 @@ export function ProgressRail({ current, elapsed }: Props) {
                 <span
                   className={cn(
                     "num grid h-8 w-8 place-items-center rounded-full text-xs font-semibold",
-                    done && "ai-gradient text-night",
-                    active && "bg-ink text-night ring-4 ring-regal-hi/30",
-                    !done && !active && "bg-surface text-faint"
+                    done && "ai-gradient text-white",
+                    active && "bg-primary text-white ring-4 ring-primary/15",
+                    !done && !active && "bg-page text-faint ring-1 ring-line"
                   )}
                 >
                   {done ? <Check size={16} strokeWidth={3} /> : i + 1}
