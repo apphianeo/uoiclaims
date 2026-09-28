@@ -1,64 +1,72 @@
 /*
- * Design tokens. PLACEHOLDER values until UOI brand colours and typeface are
- * supplied. Swap them here; components only reference these variables through
- * Tailwind classes (bg-brand, text-muted, border-line, ...).
- * Colours are space-separated RGB so Tailwind opacity modifiers work.
+ * Design tokens, taken from the UOI customer portal (apphianeo/customerportal,
+ * src/index.css) so the demo reads as the same product family.
+ * Components only reference these through Tailwind classes (bg-primary,
+ * text-muted, border-line, ...). Colours are space-separated RGB so Tailwind
+ * opacity modifiers work.
  */
 
 @font-face {
-  font-family: "Figtree Variable";
+  font-family: "Noto Sans Variable";
   font-style: normal;
   font-display: block;
-  font-weight: 300 900;
-  src: url("@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  src: url("@fontsource-variable/noto-sans/files/noto-sans-latin-wght-normal.woff2") format("woff2-variations");
 }
 
 :root {
-  /* Type */
-  --font-sans: "Figtree Variable", system-ui, sans-serif;
+  /* Type (portal: Noto Sans) */
+  --font-sans: "Noto Sans Variable", system-ui, sans-serif;
+  --text-2xs: 12px;
   --text-xs: 13px;
   --text-sm: 15px;
   --text-base: 17px;
   --text-lg: 20px;
   --text-xl: 24px;
   --text-2xl: 32px;
-  --text-3xl: 48px;
+  --text-3xl: 54px;   /* portal display */
 
-  /* Shape */
-  --radius-sm: 6px;
-  --radius: 10px;
+  /* Shape (portal radii 8 / 12 / 16 / 24) */
+  --radius-sm: 8px;
+  --radius: 12px;
   --radius-lg: 16px;
-  --radius-xl: 28px;
+  --radius-xl: 24px;
 
-  /* Neutrals */
-  --stage: 238 240 243;      /* backdrop behind both views */
-  --surface: 255 255 255;    /* panels */
-  --sunken: 246 247 249;     /* wells, table stripes */
-  --line: 222 226 232;       /* hairlines */
-  --ink: 20 27 38;           /* primary text */
-  --muted: 88 98 114;        /* secondary text */
-  --faint: 150 158 171;      /* placeholder / pending */
+  /* Brand (portal) */
+  --primary: 0 94 184;       /* #005EB8 */
+  --regal: 92 85 235;        /* #5C55EB, the AI half of the brand gradient */
+  --accent: 240 146 82;      /* #F09252 */
+  --uob-red: 237 28 36;
 
-  /* Brand (placeholder: deep navy) */
-  --brand: 18 42 94;
-  --brand-ink: 255 255 255;
-  --brand-soft: 229 235 247;
+  /* Surfaces (portal) */
+  --page: 246 248 252;       /* #F6F8FC */
+  --surface: 255 255 255;
+  --info: 239 246 255;       /* #EFF6FF */
+  --line: 232 234 238;       /* ~ rgba(0,0,0,.09) on white */
 
-  /* Signature: the live link between phone and desk */
-  --live: 0 128 124;
-  --live-soft: 214 241 238;
+  /* Text (portal) */
+  --ink: 33 33 33;           /* #212121 */
+  --muted: 110 110 110;      /* #6E6E6E */
+  --faint: 141 141 141;      /* #8D8D8D */
 
-  /* Semantic */
-  --limit: 176 96 0;         /* a policy limit changed the amount */
-  --limit-soft: 253 241 222;
-  --paid: 20 128 70;
-  --paid-soft: 222 243 230;
+  /* Status (portal) */
+  --success: 6 95 70;        /* #065F46 */
+  --success-bg: 236 253 245;
+  --caution: 196 118 0;      /* portal #FFA826, darkened for text contrast */
+  --caution-bg: 255 248 236; /* #FFF8EC */
+  --error: 153 27 27;
 
-  /* Chat */
-  --bubble-ai: 241 243 246;
-  --bubble-me: 18 42 94;
-  --bubble-me-ink: 255 255 255;
+  /* Booth stage: the dark room both views sit in */
+  --night: 5 14 34;
+  --night-2: 12 26 56;
+  --night-line: 38 56 96;
+  --night-ink: 226 233 245;
+  --night-muted: 138 155 190;
 
   /* Phone hardware */
-  --device: 22 24 28;
+  --device: 14 16 22;
+
+  /* Elevation (portal shadow-card / shadow-pop) */
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-pop: 0 10px 35px 0 rgb(0 94 184 / 0.12);
 }

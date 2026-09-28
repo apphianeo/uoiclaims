@@ -9,5 +9,5 @@ npm run dev      # develop at http://localhost:5173
 npm run build    # dist/index.html: one self-contained file, open it directly from disk
 ```
 
-- Brand colours, radii and type scale: `src/styles/tokens.css` (placeholders until UOI brand values are supplied).
+- Brand colours, radii, shadows and type (Noto Sans) come from the UOI customer portal: `src/styles/tokens.css`.
 - Scenario content: `src/scenarios/*.ts` (from milestone 2).
