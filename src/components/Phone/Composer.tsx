@@ -117,9 +117,32 @@ function TrayDoc({ doc, attached, busy }: { doc: Doc; attached: boolean; busy: b
         busy && !attached && "opacity-60"
       )}
     >
-      <span className={cn("grid h-12 w-10 shrink-0 place-items-center rounded-[8px]", attached ? "bg-primary text-white" : "bg-surface text-primary")}>
-        {attached ? <Check size={20} strokeWidth={3} /> : <Icon size={20} />}
-      </span>
+      {doc.photos ? (
+        // photos: show the pictures themselves, fanned slightly
+        <span className="relative flex h-12 shrink-0 items-center">
+          {doc.photos.map((p, i) => (
+            <img
+              key={i}
+              src={p.src}
+              alt=""
+              draggable={false}
+              className="h-12 w-9 rounded-[6px] object-cover ring-2 ring-page"
+              style={{ marginLeft: i ? -10 : 0, transform: `rotate(${i ? 6 : -6}deg)` }}
+            />
+          ))}
+          {attached && (
+            <span className="absolute inset-0 grid place-items-center">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-white">
+                <Check size={14} strokeWidth={3} />
+              </span>
+            </span>
+          )}
+        </span>
+      ) : (
+        <span className={cn("grid h-12 w-10 shrink-0 place-items-center rounded-[8px]", attached ? "bg-primary text-white" : "bg-surface text-primary")}>
+          {attached ? <Check size={20} strokeWidth={3} /> : <Icon size={20} />}
+        </span>
+      )}
       <span className="line-clamp-2 text-xs font-medium leading-tight text-ink">{doc.name}</span>
       <span className={cn("text-2xs", attached ? "text-primary" : "text-faint")}>{attached ? "Attached" : "Tap to attach"}</span>
     </button>

@@ -1,6 +1,7 @@
 import type { Scenario } from "@/engine/types";
-// Mock photo. Swap in a real one by replacing this file (any image format works).
-import suitcasePhoto from "@/assets/evidence/suitcase.svg";
+// Evidence photos (3:4 portrait). Replace the files to use different photos.
+import shellPhoto from "@/assets/evidence/suitcase-shell.jpg";
+import wheelPhoto from "@/assets/evidence/suitcase-wheel.jpg";
 
 // Second scenario, from the original brief. All figures are illustrative.
 export const baggage: Scenario = {
@@ -37,7 +38,7 @@ export const baggage: Scenario = {
       id: "damage",
       ask: "What's the damage?",
       chips: [
-        { id: "wheel", label: "Broken wheel and handle" },
+        { id: "wheel", label: "Broken wheel" },
         { id: "shell", label: "Cracked shell" },
         { id: "both", label: "Both" },
       ],
@@ -64,20 +65,19 @@ export const baggage: Scenario = {
   ],
 
   evidence: {
-    ask: "Now two documents. Please attach a photo of the suitcase and the airline's damage report.",
+    ask: "Now two documents. Please attach photos of the suitcase and the airline's damage report.",
     docs: [
       {
         id: "photo",
-        name: "Photo of suitcase",
+        name: "Photos of suitcase",
         kind: "photo",
-        header: { title: "IMG_2031.jpg", subtitle: "Taken 16 Nov 2026, Changi Airport" },
+        header: { title: "2 photos", subtitle: "Taken 16 Nov 2026, Changi Airport" },
         rows: [],
-        image: suitcasePhoto,
-        marks: [
-          { x: 49, y: 84, w: 22, h: 15, tag: "Broken wheel", field: "photo" },
-          { x: 30, y: 8, w: 22, h: 13, tag: "Bent handle", field: "damage" },
+        photos: [
+          { src: shellPhoto, marks: [{ x: 33, y: 8, w: 34, h: 61, tag: "Cracked shell", field: "damage" }] },
+          { src: wheelPhoto, marks: [{ x: 11, y: 11, w: 40, h: 28, tag: "Wheel snapped off", field: "photo" }] },
         ],
-        confirm: "Photo received. It shows a broken wheel and a bent handle, which matches what you told me.",
+        confirm: "Photos received. They show a cracked shell and a wheel snapped off its axle, which matches what you told me.",
         fills: [{ field: "photo", value: "Matches your description" }],
       },
       {
@@ -88,7 +88,7 @@ export const baggage: Scenario = {
         rows: [
           { k: "Flight", v: "SQ 708, BKK to SIN", field: "flight", tag: "Flight" },
           { k: "Date filed", v: "16 November 2026, 07:55", field: "pir", tag: "Airline report" },
-          { k: "Damage noted", v: "Wheel detached, handle bent" },
+          { k: "Damage noted", v: "Shell cracked, wheel detached" },
           { k: "Repair estimate", v: "S$150.00", field: "repair", tag: "Repair estimate" },
         ],
         confirm: "Airline damage report received. Filed at Changi on 16 Nov, estimates the repair at S$150.",

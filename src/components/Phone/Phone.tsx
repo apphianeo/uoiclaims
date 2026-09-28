@@ -142,6 +142,15 @@ export function Phone() {
 function Message({ m }: { m: Msg }) {
   if (m.kind === "assessment") return <PhoneAssessment />;
 
+  if (m.kind === "doc" && m.doc.photos)
+    return (
+      <span className="flex gap-1.5 rounded-[20px] rounded-br-[6px] bg-primary p-1.5">
+        {m.doc.photos.map((p, i) => (
+          <img key={i} src={p.src} alt="" draggable={false} className="h-[120px] w-[90px] rounded-[14px] object-cover" />
+        ))}
+      </span>
+    );
+
   if (m.kind === "doc")
     return (
       <span className="flex items-center gap-3 rounded-[20px] rounded-br-[6px] bg-primary py-2.5 pl-2.5 pr-4 text-white">
