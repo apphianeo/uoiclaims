@@ -22,21 +22,21 @@ export default function App() {
   const scale = useStageScale();
 
   return (
-    <div className="grid h-full w-full place-items-center overflow-hidden bg-night" onContextMenu={(e) => e.preventDefault()}>
+    <div className="kiosk relative h-full w-full overflow-hidden bg-night" onContextMenu={(e) => e.preventDefault()}>
+      {/* Soft pastel light in the brand hues. Painted on the full window, not the
+          scaled stage, so it never shows an edge when the window isn't 16:9. */}
       <div
-        className="kiosk relative flex shrink-0 flex-col overflow-hidden bg-night"
-        style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${scale})` }}
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(45% 55% at 5% 90%, rgb(var(--accent) / 0.16), transparent 70%), radial-gradient(45% 60% at 34% 40%, rgb(var(--regal) / 0.12), transparent 70%), radial-gradient(55% 65% at 88% 8%, rgb(var(--primary) / 0.12), transparent 70%)",
+        }}
+      />
+      {/* Fixed 1920×1080 stage, scaled to fit and centred exactly */}
+      <div
+        className="absolute left-1/2 top-1/2 flex flex-col"
+        style={{ width: STAGE_W, height: STAGE_H, transform: `translate(-50%, -50%) scale(${scale})` }}
       >
-
-        {/* soft pastel light in the brand hues: calm, friendly, never a wash */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(700px 500px at 8% 85%, rgb(var(--accent) / 0.16), transparent 70%), radial-gradient(800px 600px at 34% 40%, rgb(var(--regal) / 0.12), transparent 70%), radial-gradient(1000px 700px at 85% 10%, rgb(var(--primary) / 0.12), transparent 70%)",
-          }}
-        />
-
         <ProgressRail current={0} elapsed="0:42" />
 
         <main className="relative flex min-h-0 flex-1">
