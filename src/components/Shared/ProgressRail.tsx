@@ -1,12 +1,31 @@
+import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
+import { useStore } from "@/engine/machine";
 import { cn } from "@/lib";
 import logo from "@/assets/uoi-logo.png";
 
 export const PHASES = ["Tell us", "Evidence", "Assessment", "Decision", "Paid"] as const;
 
-type Props = { current: number; elapsed: string };
+export const mmss = (ms: number) => {
+  const t = Math.max(0, Math.floor(ms / 1000));
+  return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
+};
 
-export function ProgressRail({ current, elapsed }: Props) {
+/** Elapsed time since the visitor started, frozen once paid. */
+function useElapsed() {
+  const startedAt = useStore((s) => (s.phase === "run" || s.phase === "end" ? s.startedAt : null));
+  const paidAt = useStore((s) => s.stamps.paid);
+  const [, tick] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => tick((n) => n + 1), 1000);
+    return () => clearInterval(t);
+  }, []);
+  return startedAt ? mmss((paidAt ?? Date.now()) - startedAt) : "0:00";
+}
+
+export function ProgressRail() {
+  const current = useStore((s) => (s.phase === "run" || s.phase === "end" ? s.rail : -1));
+  const elapsed = useElapsed();
   const pct = (current / (PHASES.length - 1)) * 100;
   return (
     <header className="relative flex h-[96px] shrink-0 items-center gap-8 px-16">
@@ -22,12 +41,12 @@ export function ProgressRail({ current, elapsed }: Props) {
       {/* steps on a single track; the filled part carries the brand gradient */}
       <div className="relative mx-auto w-[820px]">
         <div className="absolute left-[10%] right-[10%] top-[15px] h-[2px] rounded-full bg-page">
-          <div className="ai-gradient h-full rounded-full" style={{ width: `${pct}%` }} />
+          <div className="ai-gradient h-full rounded-full transition-[width] duration-700" style={{ width: `${Math.max(0, pct)}%` }} />
         </div>
         <ol className="relative grid grid-cols-5">
           {PHASES.map((label, i) => {
-            const done = i < current;
-            const active = i === current;
+            const done = i < current || (i === current && i === PHASES.length - 1);
+            const active = i === current && !done;
             return (
               <li key={label} className="flex flex-col items-center gap-2">
                 <span

@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ProgressRail } from "@/components/Shared/ProgressRail";
 import { Phone } from "@/components/Phone/Phone";
 import { Desk } from "@/components/Desk/Desk";
+import { Connectors, Flight } from "@/components/Shared/LiveLink";
+import { Attract } from "@/components/Attract";
+import { EndScreen } from "@/components/EndScreen";
+import { useStore } from "@/engine/machine";
+import { useKiosk } from "@/hooks/useKiosk";
 
 const STAGE_W = 1920;
 const STAGE_H = 1080;
@@ -21,6 +27,8 @@ function useStageScale() {
 
 export default function App() {
   const scale = useStageScale();
+  const countdown = useKiosk();
+  const staff = useStore((s) => s.staff);
 
   return (
     <div className="kiosk relative h-full w-full overflow-hidden bg-night" onContextMenu={(e) => e.preventDefault()}>
@@ -35,10 +43,11 @@ export default function App() {
       />
       {/* Fixed 1920×1080 stage, scaled to fit and centred exactly */}
       <div
+        data-stage
         className="absolute left-1/2 top-1/2 flex flex-col"
         style={{ width: STAGE_W, height: STAGE_H, transform: `translate(-50%, -50%) scale(${scale})` }}
       >
-        <ProgressRail current={0} elapsed="0:42" />
+        <ProgressRail />
 
         <main className="relative flex min-h-0 flex-1">
           <section className="grid w-[36%] shrink-0 place-items-center pl-8">
@@ -52,15 +61,38 @@ export default function App() {
           </section>
         </main>
 
-        <footer className="relative flex h-12 shrink-0 items-center justify-center text-2xs text-faint">
+        <footer className="relative flex h-12 shrink-0 items-center justify-center gap-4 text-2xs text-faint">
           Illustrative demo. Figures and policy wording are not actual UOI policy terms.
+          {staff && <span className="rounded-full bg-info px-2 py-0.5 font-medium text-primary">Staff mode</span>}
         </footer>
+
+        <Connectors />
+        <Flight />
+        <Attract />
+        <EndScreen />
+
+        <AnimatePresence>
+          {countdown != null && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-[60] grid place-items-center bg-night/60 backdrop-blur-[2px]"
+            >
+              <div className="rounded-xl bg-page px-14 py-10 text-center shadow-pop ring-1 ring-line">
+                <p className="text-2xl font-bold text-ink">Still there?</p>
+                <p className="num mt-2 text-base text-muted">Starting over in {countdown} seconds.</p>
+                <button className="mt-6 h-14 rounded-full bg-primary px-10 text-lg font-semibold text-white">I'm still here</button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
 }
 
-/** The signature link between the two views. Answers will travel along it. */
+/** The seam between the two views. Answers travel across it. */
 function LiveSeam() {
   return (
     <div className="relative w-px shrink-0">
