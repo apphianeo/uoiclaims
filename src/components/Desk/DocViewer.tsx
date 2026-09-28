@@ -5,20 +5,20 @@ import { cn } from "@/lib";
 /** Document viewer: a rendered document with the AI's extracted fields boxed. */
 export function DocViewer() {
   return (
-    <section className="flex min-h-0 flex-col rounded-lg bg-surface shadow-pop">
+    <section className="flex min-h-0 flex-col rounded-lg bg-page text-ink">
       <header className="flex items-center justify-between px-6 pb-3 pt-5">
         <h3 className="text-lg font-semibold">Evidence</h3>
         <span className="num text-xs text-muted">1 of 4 received</span>
       </header>
 
-      <div className="flex gap-2 px-6 pb-4">
+      <div className="flex gap-1.5 px-6 pb-4">
         {DOCS.map((d) => (
           <span
             key={d.name}
             className={cn(
-              "flex h-8 items-center gap-1.5 rounded-full px-3 text-xs",
-              d.state === "read" && "bg-info font-medium text-primary",
-              d.state === "waiting" && "bg-page text-faint",
+              "flex h-8 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-xs",
+              d.state === "read" && "bg-info font-medium text-primary-hi",
+              d.state === "waiting" && "bg-surface text-faint",
               d.state === "missing" && "bg-caution-bg text-caution"
             )}
           >
@@ -29,14 +29,14 @@ export function DocViewer() {
       </div>
 
       {/* document canvas */}
-      <div className="relative mx-6 mb-6 flex-1 overflow-hidden rounded bg-page p-5">
-        <div className="relative mx-auto h-full max-w-[520px] rounded-sm bg-surface px-8 py-6 shadow-[0_2px_12px_rgb(0_0_0/0.08)]">
-          <div className="flex items-start justify-between border-b border-line pb-3">
+      <div className="relative mx-6 mb-6 flex-1 overflow-hidden rounded bg-surface p-5">
+        <div className="relative mx-auto h-full max-w-[520px] rounded-sm bg-white px-8 py-6 text-neutral-900 shadow-[0_8px_30px_rgb(0_0_0/0.35)]">
+          <div className="flex items-start justify-between border-b border-neutral-200 pb-3">
             <div className="leading-tight">
               <p className="text-sm font-bold tracking-wide">Tourist Police Division</p>
-              <p className="text-2xs text-muted">Royal Thai Police · Report of loss</p>
+              <p className="text-2xs text-neutral-500">Royal Thai Police · Report of loss</p>
             </div>
-            <span className="num text-2xs text-muted">No. TPB-26-118204</span>
+            <span className="num text-2xs text-neutral-500">No. TPB-26-118204</span>
           </div>
 
           <div className="mt-6 space-y-6 text-xs">
@@ -51,9 +51,9 @@ export function DocViewer() {
               <Row k="Property lost" v="Wallet, cash THB 7,500, mobile phone" />
             </Extract>
             <div className="space-y-2 pt-1">
-              <div className="h-2 w-full rounded-full bg-line" />
-              <div className="h-2 w-11/12 rounded-full bg-line" />
-              <div className="h-2 w-3/4 rounded-full bg-line" />
+              <div className="h-2 w-full rounded-full bg-neutral-200" />
+              <div className="h-2 w-11/12 rounded-full bg-neutral-200" />
+              <div className="h-2 w-3/4 rounded-full bg-neutral-200" />
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ export function DocViewer() {
 function Row({ k, v }: { k: string; v: string }) {
   return (
     <div className="grid grid-cols-[130px_1fr] gap-2">
-      <span className="text-muted">{k}</span>
+      <span className="text-neutral-500">{k}</span>
       <span className="font-medium">{v}</span>
     </div>
   );

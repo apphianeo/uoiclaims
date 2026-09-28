@@ -26,47 +26,49 @@
   --text-2xl: 32px;
   --text-3xl: 54px;   /* portal display */
 
-  /* Shape (portal radii 8 / 12 / 16 / 24) */
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Shape: soft, generous corners on the dark stage */
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
 
-  /* Brand (portal) */
+  /* Brand (portal). Fills only: too dark for text on black. */
   --primary: 0 94 184;       /* #005EB8 */
-  --regal: 92 85 235;        /* #5C55EB, the AI half of the brand gradient */
+  --regal: 92 85 235;        /* #5C55EB */
   --accent: 240 146 82;      /* #F09252 */
-  --uob-red: 237 28 36;
 
-  /* Surfaces (portal) */
-  --page: 246 248 252;       /* #F6F8FC */
-  --surface: 255 255 255;
-  --info: 239 246 255;       /* #EFF6FF */
-  --line: 232 234 238;       /* ~ rgba(0,0,0,.09) on white */
+  /* Brand, lifted for text and icons on dark */
+  --primary-hi: 122 178 255;
+  --regal-hi: 166 160 255;
 
-  /* Text (portal) */
-  --ink: 33 33 33;           /* #212121 */
-  --muted: 110 110 110;      /* #6E6E6E */
-  --faint: 141 141 141;      /* #8D8D8D */
+  /* AI gradient stops: the brand hues, lifted so they glow on black */
+  --ai-1: 90 160 255;
+  --ai-2: 150 130 255;
+  --ai-3: 240 146 82;
 
-  /* Status (portal) */
-  --success: 6 95 70;        /* #065F46 */
-  --success-bg: 236 253 245;
-  --caution: 196 118 0;      /* portal #FFA826, darkened for text contrast */
-  --caution-bg: 255 248 236; /* #FFF8EC */
-  --error: 153 27 27;
+  /* Navy surfaces, three steps: stage < card < panel */
+  --night: 5 14 34;          /* stage */
+  --page: 10 22 48;          /* cards inside a panel, the phone screen */
+  --surface: 18 34 68;       /* panels, raised elements inside cards */
+  --chip: 30 50 92;          /* answer chips, tags */
+  --line: 40 60 102;
+  --info: 24 48 92;
 
-  /* Booth stage: the dark room both views sit in */
-  --night: 5 14 34;
-  --night-2: 12 26 56;
-  --night-line: 38 56 96;
-  --night-ink: 226 233 245;
-  --night-muted: 138 155 190;
+  /* Text on dark */
+  --ink: 232 237 247;
+  --muted: 160 176 206;
+  --faint: 112 130 168;
+
+  /* Status on dark (portal hues, lifted) */
+  --success: 110 214 160;
+  --success-bg: 14 52 52;
+  --caution: 255 190 92;     /* a policy limit changed the amount */
+  --caution-bg: 62 48 30;
+  --error: 248 113 113;
 
   /* Phone hardware */
-  --device: 14 16 22;
+  --device: 46 64 104;
 
-  /* Elevation (portal shadow-card / shadow-pop) */
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.05);
-  --shadow-pop: 0 10px 35px 0 rgb(0 94 184 / 0.12);
+  --shadow-card: 0 0 0 transparent;
+  --shadow-pop: 0 0 0 transparent;
 }

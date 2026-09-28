@@ -9,7 +9,7 @@ export function AssessmentCard() {
   const payable = subtotal - EXCESS;
 
   return (
-    <section className="grid grid-cols-[1fr_320px] overflow-hidden rounded-lg bg-surface shadow-pop">
+    <section className="grid grid-cols-[1fr_320px] overflow-hidden rounded-lg bg-page text-ink">
       <div className="min-w-0">
         <header className="flex items-center justify-between gap-4 px-6 pb-3 pt-5">
           <div className="flex items-center gap-3">
@@ -54,7 +54,7 @@ export function AssessmentCard() {
       </div>
 
       {/* totals */}
-      <aside className="num flex flex-col border-l border-line bg-page/60 px-6 py-5">
+      <aside className="num flex flex-col bg-surface/60 px-6 py-5">
         <dl className="space-y-2 text-sm">
           <div className="flex justify-between">
             <dt className="text-muted">Eligible total</dt>
@@ -72,7 +72,7 @@ export function AssessmentCard() {
           <div className="mt-3 flex items-center gap-2 text-2xs text-muted">
             <span className="flex gap-0.5">
               {[0, 1, 2, 3].map((i) => (
-                <span key={i} className={i < 3 ? "ai-gradient h-1.5 w-5 rounded-full" : "h-1.5 w-5 rounded-full bg-line"} />
+                <span key={i} className={i < 3 ? "ai-gradient h-1.5 w-5 rounded-full" : "h-1.5 w-5 rounded-full bg-chip"} />
               ))}
             </span>
             High confidence · 3 of 4 lines backed by documents
