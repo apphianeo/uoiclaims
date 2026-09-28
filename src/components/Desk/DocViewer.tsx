@@ -29,8 +29,8 @@ export function DocViewer() {
       </div>
 
       {/* document canvas */}
-      <div className="relative mx-6 mb-6 flex-1 overflow-hidden rounded bg-surface p-5">
-        <div className="relative mx-auto h-full max-w-[520px] rounded-sm bg-white px-8 py-6 text-neutral-900 shadow-[0_6px_24px_rgb(0_40_100/0.10)]">
+      <div className="relative mx-6 mb-6 flex-1 overflow-hidden rounded bg-surface p-4">
+        <div className="relative mx-auto h-full max-w-[520px] rounded-sm bg-white px-8 py-5 text-neutral-900 shadow-[0_6px_24px_rgb(0_40_100/0.10)]">
           <div className="flex items-start justify-between border-b border-neutral-200 pb-3">
             <div className="leading-tight">
               <p className="text-sm font-bold tracking-wide">Tourist Police Division</p>
@@ -39,7 +39,7 @@ export function DocViewer() {
             <span className="num text-2xs text-neutral-500">No. TPB-26-118204</span>
           </div>
 
-          <div className="mt-6 space-y-6 text-xs">
+          <div className="mt-7 space-y-7 text-xs">
             <Extract label="Date filed">
               <Row k="Date of report" v="12 November 2026, 21:40" />
             </Extract>
@@ -53,7 +53,6 @@ export function DocViewer() {
             <div className="space-y-2 pt-1">
               <div className="h-2 w-full rounded-full bg-neutral-200" />
               <div className="h-2 w-11/12 rounded-full bg-neutral-200" />
-              <div className="h-2 w-3/4 rounded-full bg-neutral-200" />
             </div>
           </div>
         </div>

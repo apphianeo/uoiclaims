@@ -14,10 +14,10 @@ export function AssessmentCard() {
         <header className="flex items-center justify-between gap-4 px-6 pb-3 pt-5">
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-semibold">Assessment</h3>
-            <AiTag>Same card on the customer's phone</AiTag>
+            <AiTag className="whitespace-nowrap">Same card on the phone</AiTag>
           </div>
-          <span className="flex items-center gap-1.5 text-xs text-success">
-            <ShieldCheck size={15} /> Section 5 · Theft reported to police within 24 hours
+          <span className="flex items-center gap-1.5 whitespace-nowrap text-xs text-success">
+            <ShieldCheck size={15} /> Section 5 · Police report within 24 hours
           </span>
         </header>
 

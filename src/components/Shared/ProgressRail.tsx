@@ -9,7 +9,7 @@ type Props = { current: number; elapsed: string };
 export function ProgressRail({ current, elapsed }: Props) {
   const pct = (current / (PHASES.length - 1)) * 100;
   return (
-    <header className="relative flex h-[84px] shrink-0 items-center gap-8 px-10">
+    <header className="relative flex h-[96px] shrink-0 items-center gap-8 px-16">
       <div className="flex items-center gap-4">
         <img src={logo} alt="UOI, member of the UOB Group" className="h-12 w-auto" draggable={false} />
         <span className="h-9 w-px bg-line" />

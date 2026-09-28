@@ -8,7 +8,8 @@ const STAGE_H = 1080;
 
 /** Scale the fixed 1920×1080 stage to fit any window, letterboxed. */
 function useStageScale() {
-  const calc = () => Math.min(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H);
+  // 0.92 leaves a margin of background around the stage on every side
+  const calc = () => Math.min(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H) * 0.92;
   const [scale, setScale] = useState(calc);
   useEffect(() => {
     const onResize = () => setScale(calc());
@@ -40,18 +41,18 @@ export default function App() {
         <ProgressRail current={0} elapsed="0:42" />
 
         <main className="relative flex min-h-0 flex-1">
-          <section className="grid w-[36%] shrink-0 place-items-center">
+          <section className="grid w-[36%] shrink-0 place-items-center pl-8">
             <Phone />
           </section>
 
           <LiveSeam />
 
-          <section className="min-w-0 flex-1 pb-4 pl-8 pr-8 pt-2">
+          <section className="min-w-0 flex-1 pb-6 pl-10 pr-16 pt-2">
             <Desk />
           </section>
         </main>
 
-        <footer className="relative flex h-9 shrink-0 items-center justify-center text-2xs text-faint">
+        <footer className="relative flex h-12 shrink-0 items-center justify-center text-2xs text-faint">
           Illustrative demo. Figures and policy wording are not actual UOI policy terms.
         </footer>
       </div>
