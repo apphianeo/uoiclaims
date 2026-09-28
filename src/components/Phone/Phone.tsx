@@ -70,7 +70,7 @@ export function Phone() {
         <div className="flex shrink-0 items-center gap-3 bg-surface px-5 pb-3 pt-3">
           <AiOrb size={44} />
           <div className="min-w-0 flex-1 leading-tight">
-            <div className="text-base font-semibold text-ink">UOI Claims assistant</div>
+            <div className="text-base font-semibold text-ink">UOI Claims Assistant</div>
             <div className="flex items-center gap-1.5 text-xs text-success">
               <span className="live-pulse h-1.5 w-1.5 rounded-full bg-success" /> Shared live with your claims officer
             </div>
