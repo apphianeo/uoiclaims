@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Info, ShieldCheck } from "lucide-react";
+import { Check, Info, ShieldCheck, Smartphone } from "lucide-react";
 import { payableOf, useStore, type LineState } from "@/engine/machine";
 import { AiTag } from "@/components/Shared/Ai";
 import { cn, sgd } from "@/lib";
@@ -16,14 +16,14 @@ function useAssessment() {
 }
 
 /** An amount that shows its old value struck through after a change. */
-function Amount({ value, prev, className }: { value: number; prev?: number | null; className?: string }) {
+function Amount({ value, prev, className, gradient }: { value: number; prev?: number | null; className?: string; gradient?: boolean }) {
   const changed = prev != null && prev !== value;
   return (
     <span className={cn("num inline-flex items-baseline justify-end gap-2", className)}>
       {changed && <span className="text-[0.8em] font-normal text-faint line-through">{sgd(prev!)}</span>}
       <motion.span
         key={value}
-        className="inline-block"
+        className={cn("inline-block", gradient && "ai-text")}
         initial={changed ? { scale: 1.3, opacity: 0.3 } : false}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -66,7 +66,7 @@ export function AssessmentCard() {
                   <h3 className="text-lg font-semibold">Assessment</h3>
                   <span className="truncate text-2xs text-muted">{a.section}</span>
                 </div>
-                <AiTag className="whitespace-nowrap">Same card on the phone</AiTag>
+                <AiTag icon={Smartphone} className="whitespace-nowrap">Same card on the phone</AiTag>
               </header>
               <table className="num w-full text-sm">
                 <thead className="text-left text-2xs text-muted">
@@ -127,7 +127,7 @@ export function AssessmentCard() {
               </dl>
               <div className="mt-auto border-t border-line pt-3">
                 <p className="text-xs text-muted">Payable to {first}</p>
-                <Amount value={payable} prev={prevPayable} className="ai-text text-[42px] font-bold leading-none tracking-tight" />
+                <Amount value={payable} prev={prevPayable} gradient className="text-[42px] font-bold leading-none tracking-tight" />
                 <div className="mt-3 flex items-center gap-2 text-2xs text-muted">
                   <span className="flex gap-0.5">
                     {lines.map((l) => (
@@ -156,7 +156,7 @@ export function PhoneAssessment() {
     <div data-phone-assessment className="w-full overflow-hidden rounded-[20px] bg-page shadow-card ring-1 ring-regal/20">
       <div className="ai-tint flex items-center justify-between px-4 py-2.5">
         <span className="text-sm font-semibold">Your assessment</span>
-        <span className="text-2xs font-medium text-regal">Same as Rachel sees</span>
+        <span className="text-2xs font-medium text-primary">Same as Rachel sees</span>
       </div>
       <ul className="divide-y divide-line px-4">
         {lines.map((l) => (
@@ -186,7 +186,7 @@ export function PhoneAssessment() {
         )}
         <div className="flex items-baseline justify-between pt-1">
           <span className="font-semibold">You'll receive</span>
-          <Amount value={payable} prev={prevPayable} className="ai-text text-2xl font-bold" />
+          <Amount value={payable} prev={prevPayable} gradient className="text-2xl font-bold" />
         </div>
       </div>
     </div>

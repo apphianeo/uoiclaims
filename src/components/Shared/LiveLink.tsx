@@ -37,7 +37,7 @@ export function Flight() {
           transition={{ duration: 0.8, ease: [0.45, 0, 0.2, 1], opacity: { duration: 0.15 } }}
         >
           <span className="ai-ring flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-base font-semibold text-ink shadow-[0_12px_30px_-6px_rgb(92_85_235/0.45)]">
-            {flight.icon === "doc" ? <FileText size={17} className="text-regal" /> : <MessageSquare size={17} className="text-regal" />}
+            {flight.icon === "doc" ? <FileText size={17} className="text-primary" /> : <MessageSquare size={17} className="text-primary" />}
             {flight.text}
           </span>
         </motion.div>

@@ -16,6 +16,8 @@ export function Phone() {
   const lines = useStore((s) => s.lines);
   const scroller = useRef<HTMLDivElement>(null);
   const buzz = useAnimationControls();
+  const lastIsCard = useRef(false);
+  lastIsCard.current = messages[messages.length - 1]?.kind === "assessment";
 
   // Keep the newest message in view. An assessment card scrolls to its top so every line is readable.
   useEffect(() => {
@@ -33,6 +35,17 @@ export function Phone() {
     }, 60);
     return () => clearTimeout(t);
   }, [messages.length, typing]);
+
+  // When the answer area below grows or shrinks, keep the latest message in view.
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      if (!lastIsCard.current) el.scrollTop = el.scrollHeight;
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     if (paid) void buzz.start({ x: [0, -6, 6, -5, 5, -3, 3, 0], transition: { duration: 0.5 } });

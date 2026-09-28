@@ -38,7 +38,7 @@ export default function App() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(45% 55% at 5% 90%, rgb(var(--accent) / 0.16), transparent 70%), radial-gradient(45% 60% at 34% 40%, rgb(var(--regal) / 0.12), transparent 70%), radial-gradient(55% 65% at 88% 8%, rgb(var(--primary) / 0.12), transparent 70%)",
+            "radial-gradient(45% 55% at 5% 90%, rgb(var(--primary) / 0.08), transparent 70%), radial-gradient(45% 60% at 34% 40%, rgb(var(--regal) / 0.12), transparent 70%), radial-gradient(55% 65% at 88% 8%, rgb(var(--primary) / 0.12), transparent 70%)",
         }}
       />
       {/* Fixed 1920×1080 stage, scaled to fit and centred exactly */}
@@ -50,7 +50,7 @@ export default function App() {
         <ProgressRail />
 
         <main className="relative flex min-h-0 flex-1">
-          <section className="grid w-[36%] shrink-0 place-items-center pl-8">
+          <section className="flex shrink-0 items-center pl-16 pr-10">
             <Phone />
           </section>
 

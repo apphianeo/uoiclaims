@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FileText, MessageSquare } from "lucide-react";
+import { FileText, MessageSquare, MessagesSquare } from "lucide-react";
 import { useStore } from "@/engine/machine";
 import { AiTag } from "@/components/Shared/Ai";
 
@@ -18,7 +18,7 @@ export function ClaimFile() {
             {scenario.claimRef} · {scenario.customer.name}
           </p>
         </div>
-        <AiTag className="whitespace-nowrap">Built from your conversation</AiTag>
+        <AiTag icon={MessagesSquare} className="whitespace-nowrap">Built from your conversation</AiTag>
       </header>
 
       <div className="mx-6 mb-2 flex items-center gap-3">

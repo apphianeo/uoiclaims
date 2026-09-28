@@ -39,7 +39,7 @@ export function EndScreen() {
             <p className="num text-base text-muted">
               {sgd(paid)} paid to {scenario.customer.first} in {mmss((stamps.paid ?? 0) - startedAt)}
             </p>
-            <h1 className="ai-text mt-2 text-[64px] font-bold leading-tight tracking-tight">Same file. Same reasons. Same day.</h1>
+            <h1 className="ai-text mx-auto mt-2 text-[64px] font-bold leading-tight tracking-tight">Same file. Same reasons. Same day.</h1>
 
             <ol className="relative mx-auto mt-12 grid max-w-[820px] grid-cols-4">
               <span className="ai-gradient absolute left-[12.5%] right-[12.5%] top-[19px] h-[2px]" />

@@ -23,6 +23,7 @@ export function Composer() {
         >
           {prompt?.type === "chips" && (
             <>
+              {prompt.q.multi && <p className="mb-2 text-xs text-muted">Select all that apply</p>}
               <div className="flex flex-wrap gap-2">
                 {prompt.q.chips.map((c) => {
                   const on = prompt.q.multi && prompt.selected.includes(c.id);
@@ -59,7 +60,7 @@ export function Composer() {
           {prompt?.type === "tray" && (
             <>
               <p className="mb-2 text-xs text-muted">Tap each document to attach it</p>
-              <div className="flex gap-2">
+              <div className="flex items-stretch gap-2">
                 {prompt.docs.map((d) => (
                   <TrayDoc key={d.id} doc={d} attached={prompt.attached.includes(d.id)} busy={prompt.busy} />
                 ))}
@@ -111,15 +112,15 @@ function TrayDoc({ doc, attached, busy }: { doc: Doc; attached: boolean; busy: b
       disabled={attached || busy}
       onClick={(e) => actions.attachDoc(doc.id, e.currentTarget)}
       className={cn(
-        "relative flex h-[118px] min-w-0 flex-1 flex-col items-center justify-center gap-2 rounded-lg px-2 text-center shadow-card ring-1 transition",
+        "relative flex min-h-[118px] min-w-0 flex-1 flex-col items-center justify-start gap-2 rounded-lg px-2 pb-3 pt-4 text-center shadow-card ring-1 transition",
         attached ? "bg-info/60 ring-primary/30" : "bg-page ring-line active:scale-[0.97]",
         busy && !attached && "opacity-60"
       )}
     >
-      <span className={cn("grid h-12 w-10 place-items-center rounded-[8px]", attached ? "bg-primary text-white" : "bg-surface text-primary")}>
+      <span className={cn("grid h-12 w-10 shrink-0 place-items-center rounded-[8px]", attached ? "bg-primary text-white" : "bg-surface text-primary")}>
         {attached ? <Check size={20} strokeWidth={3} /> : <Icon size={20} />}
       </span>
-      <span className="text-xs font-medium leading-tight text-ink">{doc.name}</span>
+      <span className="line-clamp-2 text-xs font-medium leading-tight text-ink">{doc.name}</span>
       <span className={cn("text-2xs", attached ? "text-primary" : "text-faint")}>{attached ? "Attached" : "Tap to attach"}</span>
     </button>
   );

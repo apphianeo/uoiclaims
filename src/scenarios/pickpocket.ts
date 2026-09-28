@@ -58,14 +58,14 @@ export const pickpocket: Scenario = {
     },
     {
       id: "items",
-      ask: "What was taken? Tap to change anything that's not right.",
+      ask: "What was taken?",
       chips: [
         { id: "wallet", label: "Wallet" },
         { id: "cash", label: "Cash" },
         { id: "passport", label: "Passport" },
         { id: "phone", label: "Phone" },
       ],
-      multi: { preselect: ["wallet", "cash", "passport", "phone"], confirm: "That's everything" },
+      multi: { preselect: ["wallet", "cash", "passport", "phone"], confirm: "Next" },
       field: "items",
       ack: "I'm sorry, that's a lot to lose at once. We'll go through each one.",
     },

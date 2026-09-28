@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, MousePointer2, Sparkles, Timer } from "lucide-react";
+import { Check, ClipboardCheck, MousePointer2, Timer } from "lucide-react";
 import { actions, payableOf, useStore } from "@/engine/machine";
 import { cn, sgd } from "@/lib";
 
@@ -23,8 +23,8 @@ export function Review() {
       <h3 className="text-lg font-semibold">Officer review</h3>
 
       <div className="ai-tint mt-3 rounded px-4 py-3">
-        <p className="flex items-center gap-1.5 text-xs font-medium text-regal">
-          <Sparkles size={13} /> AI recommendation
+        <p className="flex items-center gap-1.5 text-xs font-medium text-primary">
+          <ClipboardCheck size={13} /> AI recommendation
         </p>
         <p className="num mt-1 text-xl font-semibold">Approve and pay {sgd(payable)}</p>
         <p className="text-xs text-muted">Every line follows {scenario.assessment.section.split(",")[0]}. Nothing needs a second look.</p>

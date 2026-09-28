@@ -41,10 +41,9 @@
   --primary-hi: 0 94 184;
   --regal-hi: 92 85 235;
 
-  /* AI gradient stops: brand blue -> violet -> warm peach */
+  /* AI gradient stops: the portal's blue -> purple */
   --ai-1: 0 94 184;
   --ai-2: 92 85 235;
-  --ai-3: 240 146 82;
 
   /* Light, airy surfaces: stage < panel < card */
   --night: 243 246 252;      /* stage */
