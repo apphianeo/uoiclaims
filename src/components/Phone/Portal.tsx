@@ -10,10 +10,9 @@ import { CarIcon, TravelIcon } from "./PolicyIcons";
 export function Portal() {
   const scenario = useStore((s) => s.scenario);
   const { customer, policy } = scenario;
-  const initials = customer.name
-    .split(" ")
-    .map((w) => w[0])
-    .join("");
+  // Two letters: first and last name ("Wei Ling Tan" -> "WT")
+  const parts = customer.name.split(" ");
+  const initials = parts[0][0] + parts[parts.length - 1][0];
 
   return (
     <motion.div
@@ -49,12 +48,12 @@ export function Portal() {
         </button>
       </div>
 
-      {/* Another policy, for realism */}
-      <div className="mt-3 flex items-center gap-2 rounded-lg bg-page p-4 opacity-70 shadow-card">
-        <div className="min-w-0 flex-1">
-          <PolicyRow icon={<CarIcon />} name="UniCar" number="PNF320104124A23" detail="Private car · Renews Mar 2027" />
-        </div>
-        <ChevronRight size={18} className="shrink-0 text-faint" />
+      {/* Another policy, same card layout as above */}
+      <div className="mt-3 rounded-lg bg-page p-4 shadow-card">
+        <PolicyRow icon={<CarIcon />} name="UniCar" number="PNF320104124A23" detail="Private car · Renews Mar 2027" />
+        <span className="mt-4 flex h-12 w-full items-center justify-center gap-1 rounded-full text-base font-medium text-primary ring-1 ring-primary/25">
+          View policy <ChevronRight size={18} />
+        </span>
       </div>
 
       <p className="mt-auto text-center text-2xs text-faint">UOI customer portal</p>

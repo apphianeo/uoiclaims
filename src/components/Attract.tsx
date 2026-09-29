@@ -35,7 +35,7 @@ export function Attract() {
                   <h1 className="mt-6 text-3xl font-bold tracking-tight text-ink">
                     Your claim, our view
                     <br />
-                    <span className="text-primary">on the same screen</span>
+                    <span className="ai-text mx-auto">on the same screen</span>
                   </h1>
                   <p className="mx-auto mt-4 max-w-[600px] text-lg text-muted">
                     Make a travel claim on the phone on the left. On the right, you'll see exactly what your UOI claims officer sees, as it happens.
