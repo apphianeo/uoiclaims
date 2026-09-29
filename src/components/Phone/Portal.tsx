@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, ChevronRight } from "lucide-react";
+import { Check } from "lucide-react";
 import { actions, useStore } from "@/engine/machine";
 import logo from "@/assets/uoi-logo.png";
 import { CarIcon, TravelIcon } from "./PolicyIcons";
@@ -51,8 +51,8 @@ export function Portal() {
       {/* Another policy, same card layout as above */}
       <div className="mt-3 rounded-lg bg-page p-4 shadow-card">
         <PolicyRow icon={<CarIcon />} name="UniCar" number="PNF320104124A23" detail="Private car · Renews Mar 2027" />
-        <span className="mt-4 flex h-12 w-full items-center justify-center gap-1 rounded-full text-base font-medium text-primary ring-1 ring-primary/25">
-          View policy <ChevronRight size={18} />
+        <span className="mt-4 flex h-12 w-full items-center justify-center rounded-full text-base font-medium text-primary ring-1 ring-primary/25">
+          View policy
         </span>
       </div>
 

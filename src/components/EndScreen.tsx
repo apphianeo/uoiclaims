@@ -40,7 +40,7 @@ export function EndScreen() {
               {sgd(paid)} paid in {mmss((stamps.paid ?? 0) - startedAt)}
             </h1>
             <p className="mx-auto mt-3 max-w-[640px] text-lg text-muted">
-              One conversation, one shared file, and you always knew why.
+              Every step and every decision, shown to you as it happened.
             </p>
 
             <ol className="relative mx-auto mt-10 grid max-w-[820px] grid-cols-4">

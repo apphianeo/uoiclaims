@@ -43,13 +43,13 @@ export default function App() {
         <ProgressRail />
 
         <main className="relative flex min-h-0 flex-1">
-          <section className="flex shrink-0 items-center pl-16 pr-10">
+          <section className="flex shrink-0 items-center pl-14 pr-16">
             <Phone />
           </section>
 
           <LiveSeam />
 
-          <section className="min-w-0 flex-1 pb-6 pl-10 pr-16 pt-2">
+          <section className="min-w-0 flex-1 pb-6 pl-16 pr-14 pt-2">
             <Desk />
           </section>
         </main>

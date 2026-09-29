@@ -34,7 +34,7 @@ export function ProgressRail() {
         <span className="h-9 w-px bg-line" />
         <span className="leading-tight">
           <span className="ai-text block text-xl font-semibold">See what we see</span>
-          <span className="block text-xs text-muted">One claim file, shared by you and UOI</span>
+          <span className="block text-xs text-muted">Try a claim on the phone. Watch UOI's side update live.</span>
         </span>
       </div>
 
