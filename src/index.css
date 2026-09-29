@@ -41,6 +41,13 @@ body {
       linear-gradient(rgb(var(--surface)), rgb(var(--surface))) padding-box,
       linear-gradient(135deg, rgb(var(--ai-1)), rgb(var(--ai-2))) border-box;
   }
+  /* Full gradient outline on a page-coloured card, so no edge looks cut off */
+  .ai-border {
+    border: 1.5px solid transparent;
+    background:
+      linear-gradient(rgb(var(--page)), rgb(var(--page))) padding-box,
+      linear-gradient(135deg, rgb(var(--ai-1)), rgb(var(--ai-2))) border-box;
+  }
   /* Portal tint: linear-gradient(90deg, rgba(0,94,184,.06) 0.62%, rgba(92,85,235,.06) 100%) */
   .ai-tint { background-image: linear-gradient(90deg, rgb(var(--ai-1) / 0.06) 0.62%, rgb(var(--ai-2) / 0.06) 100%); }
 }

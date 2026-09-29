@@ -44,10 +44,9 @@ export function AssessmentCard() {
   const backed = lines?.filter((l) => l.backed).length ?? 0;
   const first = useStore((s) => s.scenario.customer.first);
 
+  // AI-produced: a brand-gradient outline once the assessment exists
   return (
-    <section className="relative min-h-[196px] overflow-hidden rounded-lg bg-page text-ink shadow-card">
-      {/* AI-produced: a thin brand-gradient edge once the assessment exists */}
-      {lines && <span className="ai-gradient absolute inset-x-0 top-0 z-10 h-[3px]" />}
+    <section className={cn("relative min-h-[196px] overflow-hidden rounded-lg text-ink shadow-card", lines ? "ai-border" : "border-[1.5px] border-transparent bg-page")}>
       <AnimatePresence mode="wait" initial={false}>
         {!lines ? (
           <motion.div key="empty" exit={{ opacity: 0 }} className="flex h-[196px] flex-col items-center justify-center gap-2 text-faint">
@@ -68,7 +67,7 @@ export function AssessmentCard() {
                   <h3 className="text-lg font-semibold">Assessment</h3>
                   <span className="truncate text-2xs text-muted">{a.section}</span>
                 </div>
-                <AiTag icon={Smartphone} className="whitespace-nowrap">Same card on the phone</AiTag>
+                <AiTag icon={Smartphone} className="whitespace-nowrap">{first} sees this too</AiTag>
               </header>
               <table className="num w-full text-sm">
                 <thead className="text-left text-2xs text-muted">
@@ -155,8 +154,7 @@ export function PhoneAssessment() {
   const { lines, a, payable, prevPayable } = useAssessment();
   if (!lines) return null;
   return (
-    <div data-phone-assessment className="relative w-full overflow-hidden rounded-[20px] bg-page shadow-card ring-1 ring-regal/20">
-      <span className="ai-gradient absolute inset-x-0 top-0 h-[3px]" />
+    <div data-phone-assessment className="ai-border relative w-full overflow-hidden rounded-[20px] shadow-card">
       <div className="ai-tint flex items-center justify-between px-4 py-2.5">
         <span className="text-sm font-semibold">Your assessment</span>
         <span className="text-2xs font-medium text-primary">Same as UOI sees</span>

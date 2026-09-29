@@ -125,7 +125,7 @@ export const pickpocket: Scenario = {
         id: "passport",
         name: "Passport replacement receipt",
         kind: "receipt",
-        header: { title: "Consular services, Bangkok", subtitle: "Official receipt · Emergency travel document", ref: "OR 77-5512" },
+        header: { title: "Embassy of Singapore, Bangkok", subtitle: "Receipt · Replacement passport", ref: "OR 77-5512" },
         rows: [
           { k: "Date", v: "13 November 2026" },
           { k: "Applicant", v: "Tan Wei Ling" },
