@@ -17,7 +17,7 @@ export function EndScreen() {
   const steps = [
     { label: "You submitted", t: stamps.submitted },
     { label: "AI assessed", t: stamps.assessed },
-    { label: "Rachel approved", t: stamps.reviewed },
+    { label: "UOI approved", t: stamps.reviewed },
     { label: "You were paid", t: stamps.paid },
   ];
 
@@ -37,15 +37,15 @@ export function EndScreen() {
             className="w-[1040px] rounded-xl bg-page px-16 py-12 text-center shadow-pop ring-1 ring-line"
           >
             <p className="num text-base text-muted">
-              {scenario.customer.first}'s claim · {sgd(paid)} paid in {mmss((stamps.paid ?? 0) - startedAt)}
+              {scenario.customer.first}'s claim: {sgd(paid)} paid in {mmss((stamps.paid ?? 0) - startedAt)}
             </p>
             <h1 className="mx-auto mt-3 max-w-[820px] text-balance text-[46px] font-bold leading-tight tracking-tight text-ink">
-              You saw what we saw
+              You and UOI saw the same claim
               <br />
               <span className="text-primary">from first answer to payout</span>
             </h1>
             <p className="mx-auto mt-4 max-w-[680px] text-lg text-muted">
-              Your answers and documents built the file Rachel reviewed. Same assessment, same reasons, on both screens.
+              Everything you told us and sent us went straight into the file UOI reviewed. The assessment on your phone is the one UOI used to pay you.
             </p>
 
             <ol className="relative mx-auto mt-10 grid max-w-[820px] grid-cols-4">

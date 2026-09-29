@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FileText, MessageSquare, MessagesSquare } from "lucide-react";
+import { BadgeCheck, FileText, MessageSquare, MessagesSquare } from "lucide-react";
 import { useStore } from "@/engine/machine";
 import { AiTag } from "@/components/Shared/Ai";
 
@@ -8,6 +8,7 @@ export function ClaimFile() {
   const scenario = useStore((s) => s.scenario);
   const fields = useStore((s) => s.fields);
   const filled = scenario.fields.filter((f) => fields[f.key]).length;
+  const portal = useStore((s) => s.portal);
 
   return (
     <section className="flex min-h-0 flex-col rounded-lg bg-page shadow-card">
@@ -20,6 +21,29 @@ export function ClaimFile() {
         </div>
         <AiTag icon={MessagesSquare} className="whitespace-nowrap">Built from your conversation</AiTag>
       </header>
+
+      {/* Customer and policy, already known from the customer portal */}
+      <div data-field="policy" className="relative mx-6 mb-3 flex h-11 items-center gap-3 rounded-sm bg-surface px-3">
+        {portal ? (
+          <>
+            <motion.span
+              className="absolute inset-0 rounded-sm bg-regal/15"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 1.6, ease: "easeOut" }}
+            />
+            <span className="relative flex shrink-0 items-center gap-1 rounded-full bg-success-bg px-2 py-0.5 text-2xs font-medium text-success">
+              <BadgeCheck size={12} /> Customer portal
+            </span>
+            <span className="num relative truncate text-sm text-ink">
+              <b className="font-semibold">{scenario.policy.name}</b> · {scenario.policy.number} · {scenario.policy.destination},{" "}
+              {scenario.policy.period}
+            </span>
+          </>
+        ) : (
+          <span className="text-2xs text-faint">Waiting for the customer to start a claim</span>
+        )}
+      </div>
 
       <div className="mx-6 mb-2 flex items-center gap-3">
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface">

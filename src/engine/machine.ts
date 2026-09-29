@@ -14,6 +14,7 @@ export type Msg =
   | { id: number; from: "ai"; kind: "callback"; time: string };
 
 export type Prompt =
+  | { type: "portal" }
   | { type: "chips"; q: Question; selected: string[] }
   | { type: "tray"; docs: Doc[]; attached: string[]; busy: boolean }
   | { type: "decision"; canAddDoc: boolean }
@@ -24,7 +25,7 @@ export type LineState = Line & { prev?: { rule: string; eligible: number } };
 export type Rect = { x: number; y: number; w: number; h: number };
 
 /** Something travelling from the phone to the desk. */
-export type Flight = { id: number; text: string; icon: "chat" | "doc"; from: Rect; to: string };
+export type Flight = { id: number; text: string; icon: "chat" | "doc" | "policy"; from: Rect; to: string };
 
 export type State = {
   phase: Phase;
@@ -36,6 +37,8 @@ export type State = {
   typing: boolean;
   prompt: Prompt;
   fields: Record<string, FieldVal>;
+  /** Policy and customer details have come across from the customer portal. */
+  portal: boolean;
   flight: Flight | null;
   received: string[];
   activeDoc: string | null;
@@ -58,6 +61,7 @@ const fresh = (scenario: Scenario, phase: Phase, ghost = false): State => ({
   typing: false,
   prompt: null,
   fields: {},
+  portal: false,
   flight: null,
   received: [],
   activeDoc: null,
@@ -244,7 +248,21 @@ async function script(scenario: Scenario, ghost: boolean) {
     set({ prompt: null });
   };
 
+  /* ── 0. Customer portal: signed in, starts the claim from the policy ── */
+  set({ prompt: { type: "portal" } });
+  const policyFrom = await input<Rect | null>("portal", () => stageRect(document.querySelector("[data-portal-claim]")));
+  set({ prompt: null });
+  await fly(scenario.policy.number, "policy", policyFrom, "policy");
+  set({ portal: true });
+  await S(300);
+
   /* ── 1. Tell us ── */
+  const { customer, policy } = scenario;
+  await say(
+    `Hi ${customer.first}. I can see your ${policy.name} for ${policy.destination}, ${policy.period.replace(" 2026", "")}, so there's no need to fill in your details. What happened?`
+  );
+  push({ from: "me", kind: "text", text: scenario.picker.label });
+  await S(500);
   for (const m of scenario.opener) await say(m);
 
   for (const q of scenario.questions) {
@@ -335,7 +353,7 @@ async function script(scenario: Scenario, ghost: boolean) {
 
   /* ── 5. Officer review ── */
   set({ review: { checked: 0, cursor: false, approved: false } });
-  if (!state.callback) await say("Rachel is reviewing your claim now. It won't take long.");
+  if (!state.callback) await say("A UOI claims officer is reviewing your claim now. It won't take long.");
   for (let i = 1; i <= scenario.review.checklist.length; i++) {
     await S(T.checklistTick);
     set((s) => ({ review: { ...s.review!, checked: i } }));
@@ -373,6 +391,9 @@ export const actions = {
   },
   start(scenarioId: string) {
     void run(scenarioById(scenarioId), false);
+  },
+  startClaim(el: Element | null) {
+    resolveWaiter("portal", stageRect(el));
   },
   pickChip(chipId: string, el: Element | null) {
     const p = state.prompt;

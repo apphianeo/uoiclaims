@@ -156,7 +156,7 @@ export function PhoneAssessment() {
     <div data-phone-assessment className="w-full overflow-hidden rounded-[20px] bg-page shadow-card ring-1 ring-regal/20">
       <div className="ai-tint flex items-center justify-between px-4 py-2.5">
         <span className="text-sm font-semibold">Your assessment</span>
-        <span className="text-2xs font-medium text-primary">Same as Rachel sees</span>
+        <span className="text-2xs font-medium text-primary">Same as UOI sees</span>
       </div>
       <ul className="divide-y divide-line px-4">
         {lines.map((l) => (

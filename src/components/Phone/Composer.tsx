@@ -10,6 +10,7 @@ export function Composer() {
   const lines = useStore((s) => s.lines);
   const excess = useStore((s) => s.scenario.assessment.excess);
   const key = prompt ? (prompt.type === "chips" ? prompt.q.id : prompt.type) : "none";
+  if (prompt?.type === "portal") return null;
 
   return (
     <div className="shrink-0 bg-surface px-4 pb-7 pt-2">

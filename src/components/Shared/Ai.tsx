@@ -1,12 +1,12 @@
 import { MessagesSquare, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib";
 
-/** The assistant's avatar: a plain chat icon on UOI blue. Deliberately not the UOI logo,
-    which brand guidelines don't allow to be cropped or recoloured. */
+/** The assistant's avatar: a chat icon on the blue-purple AI gradient. Deliberately not the
+    UOI logo, which brand guidelines don't allow to be cropped or recoloured. */
 export function AiOrb({ size = 40, className }: { size?: number; className?: string }) {
   return (
     <span
-      className={cn("grid shrink-0 place-items-center rounded-full bg-primary text-white", className)}
+      className={cn("ai-gradient grid shrink-0 place-items-center rounded-full text-white", className)}
       style={{ width: size, height: size }}
     >
       <MessagesSquare size={size * 0.48} strokeWidth={2} />

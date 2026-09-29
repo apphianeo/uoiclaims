@@ -7,6 +7,7 @@ import { payableOf, useStore, type Msg } from "@/engine/machine";
 import type { Doc } from "@/engine/types";
 import { sgd } from "@/lib";
 import { Composer } from "./Composer";
+import { Portal } from "./Portal";
 
 /** The customer's phone: conversation, answers, documents and the payout. */
 export function Phone() {
@@ -16,6 +17,7 @@ export function Phone() {
   const scenario = useStore((s) => s.scenario);
   const lines = useStore((s) => s.lines);
   const scroller = useRef<HTMLDivElement>(null);
+  const inPortal = useStore((s) => s.prompt?.type === "portal");
   const buzz = useAnimationControls();
   // The payout moment: the notification drops in, then the whole screen turns UOI blue.
   const [success, setSuccess] = useState(false);
@@ -123,6 +125,8 @@ export function Phone() {
 
         <Composer />
 
+        <AnimatePresence>{inPortal && <Portal />}</AnimatePresence>
+
         <AnimatePresence>
           {success && (
             <motion.div
@@ -141,7 +145,7 @@ export function Phone() {
               </motion.span>
               <p className="num mt-10 text-[40px] font-bold leading-none">{sgd(payable)}</p>
               <p className="mt-3 text-xl font-semibold">paid to you</p>
-              <p className="mt-3 text-base text-white/80">Your claim was approved by Rachel Lim. The money is in your account.</p>
+              <p className="mt-3 text-base text-white/80">UOI approved your claim. The money is in your account.</p>
               <span className="mt-8 rounded-full bg-white/15 px-4 py-1.5 text-sm">PayNow · just now</span>
               <span className="num absolute bottom-10 text-xs text-white/60">{scenario.claimRef}</span>
             </motion.div>
@@ -159,6 +163,7 @@ export function Phone() {
               className="absolute inset-x-3 top-3 z-20 rounded-[22px] bg-page/95 p-4 shadow-pop ring-1 ring-line backdrop-blur"
             >
               <div className="flex items-center gap-2 text-2xs text-muted">
+                {/* Placeholder mark: replace with the official PayNow logo asset once supplied */}
                 <span className="grid h-5 w-5 place-items-center rounded-[6px] bg-[#7B2A8E] text-[9px] font-bold text-white">PN</span>
                 PayNow · now
               </div>
@@ -205,8 +210,8 @@ function Message({ m }: { m: Msg }) {
         <span className="flex items-center gap-2 text-sm font-semibold text-primary">
           <CalendarClock size={18} /> Callback booked
         </span>
-        <span className="mt-1 block text-base">Rachel Lim will call you at {m.time}.</span>
-        <span className="mt-1 block text-sm text-muted">She has your full claim file, so you won't need to repeat anything.</span>
+        <span className="mt-1 block text-base">A UOI claims officer will call you at {m.time}.</span>
+        <span className="mt-1 block text-sm text-muted">They'll have your full claim file, so you won't need to repeat anything.</span>
       </span>
     );
 

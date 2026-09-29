@@ -5,7 +5,7 @@ export const pickpocket: Scenario = {
   id: "pickpocket",
   picker: { label: "My wallet and phone were pickpocketed", hint: "Bangkok, Thailand", icon: "wallet" },
   customer: { name: "Wei Ling Tan", first: "Wei Ling" },
-  policy: { name: "UOI Travel Insurance", number: "TRV-2026-084512", period: "8–16 Nov 2026" },
+  policy: { name: "UOI Travel Insurance", number: "TRV-2026-084512", period: "8–16 Nov 2026", destination: "Thailand" },
   claimRef: "CLM-2026-11-0412",
 
   fields: [
@@ -156,7 +156,7 @@ export const pickpocket: Scenario = {
   assessment: {
     section: "Section 5, Loss of personal belongings and travel documents",
     condition: "Theft reported to police within 24 hours",
-    intro: "Here's your assessment. Rachel, your claims officer, sees exactly the same thing.",
+    intro: "Here's your assessment. Your UOI claims officer sees exactly the same thing.",
     excess: 100,
     lines: [
       { id: "wallet", item: "Wallet", claimed: 250, rule: "Receipt provided", plain: "Covered in full. You sent the receipt.", clause: "5.1", eligible: 250, backed: true },
@@ -175,7 +175,7 @@ export const pickpocket: Scenario = {
 
   callback: {
     time: "4:15 pm today",
-    after: "Thanks for speaking with Rachel. She's reviewing your claim now.",
+    after: "Thanks for speaking with us. Your claim is being reviewed now.",
   },
 
   review: {

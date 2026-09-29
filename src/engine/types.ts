@@ -71,7 +71,8 @@ export type Scenario = {
   id: string;
   picker: { label: string; hint: string; icon: "wallet" | "luggage" };
   customer: { name: string; first: string };
-  policy: { name: string; number: string; period: string };
+  /** From the UOI customer portal: the visitor starts the claim from this policy. */
+  policy: { name: string; number: string; period: string; destination: string };
   claimRef: string;
   fields: FieldDef[];
   opener: string[];

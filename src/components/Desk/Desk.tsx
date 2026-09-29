@@ -28,7 +28,7 @@ export function Desk() {
             >
               <PhoneCall size={16} className="shrink-0" />
               <span>
-                <b className="font-semibold">Callback requested.</b> Rachel has the full claim file, so you won't need to repeat anything.
+                <b className="font-semibold">Callback requested for 4:15 pm.</b> The full claim file is here, so the customer won't need to repeat anything.
               </span>
             </motion.p>
           )}
@@ -38,7 +38,7 @@ export function Desk() {
           <span className="grid h-10 w-10 place-items-center rounded-full bg-info text-sm font-semibold text-primary">RL</span>
           <span className="leading-tight">
             <span className="block text-sm font-medium text-ink">Rachel Lim</span>
-            <span className="block text-2xs text-muted">Claims officer · Travel</span>
+            <span className="block text-2xs text-muted">UOI Claims</span>
           </span>
         </div>
       </div>

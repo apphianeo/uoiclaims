@@ -8,7 +8,7 @@ export const baggage: Scenario = {
   id: "baggage",
   picker: { label: "My suitcase was damaged on my flight", hint: "Bangkok to Singapore", icon: "luggage" },
   customer: { name: "Wei Ling Tan", first: "Wei Ling" },
-  policy: { name: "UOI Travel Insurance", number: "TRV-2026-084512", period: "8–16 Nov 2026" },
+  policy: { name: "UOI Travel Insurance", number: "TRV-2026-084512", period: "8–16 Nov 2026", destination: "Thailand" },
   claimRef: "CLM-2026-11-0419",
 
   fields: [
@@ -119,7 +119,7 @@ export const baggage: Scenario = {
   assessment: {
     section: "Section 6, Baggage",
     condition: "Damage reported to the airline",
-    intro: "Here's your assessment. Rachel, your claims officer, sees exactly the same thing.",
+    intro: "Here's your assessment. Your UOI claims officer sees exactly the same thing.",
     excess: 0,
     lines: [
       { id: "repair", item: "Suitcase repair", claimed: 150, rule: "No receipt: up to S$50", plain: "Without a receipt, repairs are covered up to S$50.", clause: "6.2(a)", eligible: 50, limited: true, backed: false },
@@ -135,7 +135,7 @@ export const baggage: Scenario = {
 
   callback: {
     time: "4:15 pm today",
-    after: "Thanks for speaking with Rachel. She's reviewing your claim now.",
+    after: "Thanks for speaking with us. Your claim is being reviewed now.",
   },
 
   review: {
