@@ -92,7 +92,7 @@ function LiveSeam() {
       <div className="absolute inset-y-6 left-0 w-px bg-gradient-to-b from-transparent via-regal-hi/50 to-transparent" />
       <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
         <span className="relative grid h-11 w-11 place-items-center rounded-full bg-page shadow-pop">
-          <span className="live-pulse h-3 w-3 rounded-full bg-primary" />
+          <span className="live-pulse ai-gradient h-3 w-3 rounded-full" />
         </span>
         <span className="whitespace-nowrap rounded-full bg-night px-2 text-2xs font-medium text-muted">Live</span>
       </div>

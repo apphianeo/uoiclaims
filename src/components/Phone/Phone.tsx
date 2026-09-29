@@ -133,7 +133,8 @@ export function Phone() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.35 }}
-              className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-primary px-10 text-center text-white"
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center px-10 text-center text-white"
+              style={{ background: "linear-gradient(160deg, rgb(var(--primary)) 35%, rgb(var(--regal)))" }}
             >
               <motion.span
                 initial={{ scale: 0.4, opacity: 0 }}
