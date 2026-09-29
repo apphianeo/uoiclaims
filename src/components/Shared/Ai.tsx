@@ -1,15 +1,15 @@
-import type { LucideIcon } from "lucide-react";
+import { MessagesSquare, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib";
-import mark from "@/assets/uoi-mark-white.png";
 
-/** The assistant's avatar: the white UOI mark on a brand blue-purple disc. */
+/** The assistant's avatar: a plain chat icon on UOI blue. Deliberately not the UOI logo,
+    which brand guidelines don't allow to be cropped or recoloured. */
 export function AiOrb({ size = 40, className }: { size?: number; className?: string }) {
   return (
     <span
-      className={cn("grid shrink-0 place-items-center rounded-full shadow-[0_4px_12px_-4px_rgb(0_94_184/0.5)]", className)}
-      style={{ width: size, height: size, background: "linear-gradient(135deg, rgb(var(--ai-1)), rgb(var(--ai-2)))" }}
+      className={cn("grid shrink-0 place-items-center rounded-full bg-primary text-white", className)}
+      style={{ width: size, height: size }}
     >
-      <img src={mark} alt="" draggable={false} style={{ width: size * 0.5, height: size * 0.5 }} />
+      <MessagesSquare size={size * 0.48} strokeWidth={2} />
     </span>
   );
 }

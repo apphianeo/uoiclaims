@@ -23,7 +23,7 @@ function Amount({ value, prev, className, gradient }: { value: number; prev?: nu
       {changed && <span className="text-[0.8em] font-normal text-faint line-through">{sgd(prev!)}</span>}
       <motion.span
         key={value}
-        className={cn("inline-block", gradient && "ai-text")}
+        className={cn("inline-block", gradient && "text-primary")}
         initial={changed ? { scale: 1.3, opacity: 0.3 } : false}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -131,7 +131,7 @@ export function AssessmentCard() {
                 <div className="mt-3 flex items-center gap-2 text-2xs text-muted">
                   <span className="flex gap-0.5">
                     {lines.map((l) => (
-                      <span key={l.id} className={l.backed ? "ai-gradient h-1.5 w-5 rounded-full" : "h-1.5 w-5 rounded-full bg-chip"} />
+                      <span key={l.id} className={l.backed ? "h-1.5 w-5 rounded-full bg-primary" : "h-1.5 w-5 rounded-full bg-chip"} />
                     ))}
                   </span>
                   {backed === lines.length

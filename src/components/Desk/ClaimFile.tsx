@@ -24,7 +24,7 @@ export function ClaimFile() {
       <div className="mx-6 mb-2 flex items-center gap-3">
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface">
           <motion.div
-            className="ai-gradient h-full rounded-full"
+            className="h-full rounded-full bg-primary"
             animate={{ width: `${(filled / scenario.fields.length) * 100}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           />

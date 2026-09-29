@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Timer } from "lucide-react";
 import { useStore } from "@/engine/machine";
 import { cn } from "@/lib";
 import logo from "@/assets/uoi-logo.png";
@@ -33,15 +33,15 @@ export function ProgressRail() {
         <img src={logo} alt="UOI, member of the UOB Group" className="h-12 w-auto" draggable={false} />
         <span className="h-9 w-px bg-line" />
         <span className="leading-tight">
-          <span className="ai-text block text-xl font-semibold">See what we see</span>
+          <span className="block text-xl font-semibold text-primary">See what we see</span>
           <span className="block text-xs text-muted">One claim file, shared by you and UOI</span>
         </span>
       </div>
 
-      {/* steps on a single track; the filled part carries the brand gradient */}
+      {/* steps on a single track */}
       <div className="relative mx-auto w-[820px]">
         <div className="absolute left-[10%] right-[10%] top-[15px] h-[2px] rounded-full bg-page">
-          <div className="ai-gradient h-full rounded-full transition-[width] duration-700" style={{ width: `${Math.max(0, pct)}%` }} />
+          <div className="h-full rounded-full bg-primary transition-[width] duration-700" style={{ width: `${Math.max(0, pct)}%` }} />
         </div>
         <ol className="relative grid grid-cols-5">
           {PHASES.map((label, i) => {
@@ -52,7 +52,7 @@ export function ProgressRail() {
                 <span
                   className={cn(
                     "num grid h-8 w-8 place-items-center rounded-full text-xs font-semibold",
-                    done && "ai-gradient text-white",
+                    done && "bg-primary text-white",
                     active && "bg-primary text-white ring-4 ring-primary/15",
                     !done && !active && "bg-page text-faint ring-1 ring-line"
                   )}
@@ -69,8 +69,11 @@ export function ProgressRail() {
       </div>
 
       <div className="w-[240px] text-right leading-tight">
-        <span className="num block text-xl font-semibold text-ink">{elapsed}</span>
-        <span className="block text-xs text-muted">Your claim so far</span>
+        <span className="num flex items-center justify-end gap-1.5 text-xl font-semibold text-ink">
+          <Timer size={18} className="text-muted" />
+          {elapsed}
+        </span>
+        <span className="block text-xs text-muted">Time since you started your claim</span>
       </div>
     </header>
   );

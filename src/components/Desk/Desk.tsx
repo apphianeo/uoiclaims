@@ -12,7 +12,7 @@ export function Desk() {
   const reviewing = useStore((s) => !!s.review);
 
   return (
-    <div className="flex h-full flex-col gap-4 rounded-xl bg-surface/80 p-6 shadow-pop ring-1 ring-page backdrop-blur">
+    <div className="flex h-full flex-col gap-6 rounded-xl bg-surface/80 p-7 shadow-pop ring-1 ring-page backdrop-blur">
       <div className="flex items-center justify-between gap-4 px-2">
         <div className="shrink-0 leading-tight">
           <h2 className="text-xl font-semibold text-ink">UOI Claims Workbench</h2>
@@ -43,7 +43,7 @@ export function Desk() {
         </div>
       </div>
 
-      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-4">
+      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6">
         <ClaimFile />
         {reviewing ? <Review /> : <DocViewer />}
       </div>

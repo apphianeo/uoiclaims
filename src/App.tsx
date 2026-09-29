@@ -32,15 +32,8 @@ export default function App() {
 
   return (
     <div className="kiosk relative h-full w-full overflow-hidden bg-night" onContextMenu={(e) => e.preventDefault()}>
-      {/* Soft pastel light in the brand hues. Painted on the full window, not the
-          scaled stage, so it never shows an edge when the window isn't 16:9. */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(45% 55% at 5% 90%, rgb(var(--primary) / 0.08), transparent 70%), radial-gradient(45% 60% at 34% 40%, rgb(var(--regal) / 0.12), transparent 70%), radial-gradient(55% 65% at 88% 8%, rgb(var(--primary) / 0.12), transparent 70%)",
-        }}
-      />
+      {/* Calm sky-to-white canvas, painted on the full window so it never shows an edge */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#eaf3ff] to-[#f8fafd]" />
       {/* Fixed 1920×1080 stage, scaled to fit and centred exactly */}
       <div
         data-stage
@@ -56,8 +49,9 @@ export default function App() {
 
           <LiveSeam />
 
-          <section className="min-w-0 flex-1 pb-6 pl-10 pr-16 pt-2">
+          <section className="relative min-w-0 flex-1 pb-6 pl-10 pr-16 pt-2">
             <Desk />
+            <EndScreen />
           </section>
         </main>
 
@@ -69,7 +63,6 @@ export default function App() {
         <Connectors />
         <Flight />
         <Attract />
-        <EndScreen />
 
         <AnimatePresence>
           {countdown != null && (
@@ -99,7 +92,7 @@ function LiveSeam() {
       <div className="absolute inset-y-6 left-0 w-px bg-gradient-to-b from-transparent via-regal-hi/50 to-transparent" />
       <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
         <span className="relative grid h-11 w-11 place-items-center rounded-full bg-page shadow-pop">
-          <span className="live-pulse ai-gradient h-3 w-3 rounded-full" />
+          <span className="live-pulse h-3 w-3 rounded-full bg-primary" />
         </span>
         <span className="whitespace-nowrap rounded-full bg-night px-2 text-2xs font-medium text-muted">Live</span>
       </div>

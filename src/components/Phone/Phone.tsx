@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
-import { CalendarClock, FileText } from "lucide-react";
+import { CalendarClock, Check, FileText, ScanText } from "lucide-react";
 import { AiOrb } from "@/components/Shared/Ai";
 import { PhoneAssessment } from "@/components/Shared/AssessmentCard";
 import { payableOf, useStore, type Msg } from "@/engine/machine";
+import type { Doc } from "@/engine/types";
 import { sgd } from "@/lib";
 import { Composer } from "./Composer";
 
@@ -16,6 +17,13 @@ export function Phone() {
   const lines = useStore((s) => s.lines);
   const scroller = useRef<HTMLDivElement>(null);
   const buzz = useAnimationControls();
+  // The payout moment: the notification drops in, then the whole screen turns UOI blue.
+  const [success, setSuccess] = useState(false);
+  useEffect(() => {
+    if (!paid) return setSuccess(false);
+    const t = setTimeout(() => setSuccess(true), 1800);
+    return () => clearTimeout(t);
+  }, [paid]);
   const lastIsCard = useRef(false);
   lastIsCard.current = messages[messages.length - 1]?.kind === "assessment";
 
@@ -115,9 +123,34 @@ export function Phone() {
 
         <Composer />
 
+        <AnimatePresence>
+          {success && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.35 }}
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-primary px-10 text-center text-white"
+            >
+              <motion.span
+                initial={{ scale: 0.4, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 16 }}
+                className="grid h-28 w-28 place-items-center rounded-full bg-white text-primary"
+              >
+                <Check size={60} strokeWidth={2.5} />
+              </motion.span>
+              <p className="num mt-10 text-[40px] font-bold leading-none">{sgd(payable)}</p>
+              <p className="mt-3 text-xl font-semibold">paid to you</p>
+              <p className="mt-3 text-base text-white/80">Your claim was approved by Rachel Lim. The money is in your account.</p>
+              <span className="mt-8 rounded-full bg-white/15 px-4 py-1.5 text-sm">PayNow · just now</span>
+              <span className="num absolute bottom-10 text-xs text-white/60">{scenario.claimRef}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* PayNow-style payout notification */}
         <AnimatePresence>
-          {paid && (
+          {paid && !success && (
             <motion.div
               initial={{ y: -140, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -141,6 +174,8 @@ export function Phone() {
 
 function Message({ m }: { m: Msg }) {
   if (m.kind === "assessment") return <PhoneAssessment />;
+
+  if (m.kind === "read") return <ReadCard doc={m.doc} text={m.doc.confirm} />;
 
   if (m.kind === "doc" && m.doc.photos)
     return (
@@ -185,4 +220,29 @@ function Message({ m }: { m: Msg }) {
 function Clock() {
   const t = new Date().toLocaleTimeString("en-SG", { hour: "numeric", minute: "2-digit", hour12: false });
   return <span>{t}</span>;
+}
+
+/** The assistant's confirmation after a document, showing what it read: the same values
+    that just landed in the officer's claim file. */
+function ReadCard({ doc, text }: { doc: Doc; text: string }) {
+  const fields = useStore((s) => s.scenario.fields);
+  const label = (key: string) => fields.find((f) => f.key === key)?.label ?? key;
+  return (
+    <div className="w-[86%] overflow-hidden rounded-[20px] rounded-bl-[6px] bg-page shadow-card">
+      <p className="px-4 pb-2.5 pt-3">{text}</p>
+      <div className="ai-tint mx-2 mb-2 rounded-[14px] px-3 py-2.5">
+        <p className="mb-1.5 flex items-center gap-1.5 text-2xs font-medium text-primary">
+          <ScanText size={12} /> What I read from your {doc.name.toLowerCase()}
+        </p>
+        <dl className="space-y-1">
+          {doc.fills.map((f) => (
+            <div key={f.field} className="flex items-baseline justify-between gap-3 text-sm">
+              <dt className="text-muted">{label(f.field)}</dt>
+              <dd className="num text-right font-semibold">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  );
 }

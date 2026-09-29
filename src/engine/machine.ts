@@ -9,6 +9,7 @@ export type Phase = "attract" | "picker" | "run" | "end";
 export type Msg =
   | { id: number; from: "ai" | "me"; kind: "text"; text: string }
   | { id: number; from: "me"; kind: "doc"; doc: Doc }
+  | { id: number; from: "ai"; kind: "read"; doc: Doc }
   | { id: number; from: "ai"; kind: "assessment" }
   | { id: number; from: "ai"; kind: "callback"; time: string };
 
@@ -219,7 +220,12 @@ async function script(scenario: Scenario, ghost: boolean) {
       fill(f.field, f.value, "doc", doc.name);
       await S(T.fieldStagger);
     }
-    await say(doc.confirm);
+    // Confirm in plain words, with the same values the officer now sees.
+    set({ typing: true });
+    await S(Math.min(T.typingMax, T.typingBase + doc.confirm.length * T.typingPerChar));
+    set({ typing: false });
+    push({ from: "ai", kind: "read", doc });
+    await S(T.afterMsg + 400);
   };
 
   /** Show a tray of documents and wait until each one is attached. */

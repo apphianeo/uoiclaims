@@ -23,8 +23,9 @@ export function Composer() {
         >
           {prompt?.type === "chips" && (
             <>
-              {prompt.q.multi && <p className="mb-2 text-xs text-muted">Select all that apply</p>}
-              <div className="flex flex-wrap gap-2">
+              {prompt.q.multi && <p className="mb-2 text-right text-xs text-muted">Select all that apply</p>}
+              {/* answers sit on the right, where your reply will appear */}
+              <div className="flex flex-wrap justify-end gap-2">
                 {prompt.q.chips.map((c) => {
                   const on = prompt.q.multi && prompt.selected.includes(c.id);
                   return (
@@ -95,7 +96,6 @@ export function Composer() {
             </div>
           )}
 
-          {!prompt && <div className="h-12 rounded-full bg-page/70 ring-1 ring-line" />}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -151,7 +151,7 @@ function TrayDoc({ doc, attached, busy }: { doc: Doc; attached: boolean; busy: b
 
 function PrivacyNote() {
   return (
-    <p className="mt-3 flex items-center gap-1.5 text-2xs text-faint">
+    <p className="mt-3 flex items-center justify-end gap-1.5 text-2xs text-faint">
       <Lock size={12} /> Your officer sees the same claim file.
     </p>
   );
