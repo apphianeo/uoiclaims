@@ -38,7 +38,7 @@ export function Attract() {
                     <span className="text-primary">on the same screen</span>
                   </h1>
                   <p className="mx-auto mt-4 max-w-[600px] text-lg text-muted">
-                    Make a travel claim on the phone. Watch it land in your claims officer's file as you go, with the same reasons for every dollar.
+                    Make a travel claim on the phone on the left. On the right, you'll see exactly what your UOI claims officer sees, as it happens.
                   </p>
                   <button
                     onClick={() => actions.openPicker()}

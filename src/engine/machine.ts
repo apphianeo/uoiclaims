@@ -113,7 +113,7 @@ const T = {
   checklistTick: 520,
   cursor: 1500,
   callHold: 3200,
-  endDelay: 4200,
+  endDelay: 5500,
 };
 
 /* ─────────────────────────────── Director ─────────────────────────────── */

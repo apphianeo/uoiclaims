@@ -49,9 +49,8 @@ export default function App() {
 
           <LiveSeam />
 
-          <section className="relative min-w-0 flex-1 pb-6 pl-10 pr-16 pt-2">
+          <section className="min-w-0 flex-1 pb-6 pl-10 pr-16 pt-2">
             <Desk />
-            <EndScreen />
           </section>
         </main>
 
@@ -63,6 +62,7 @@ export default function App() {
         <Connectors />
         <Flight />
         <Attract />
+        <EndScreen />
 
         <AnimatePresence>
           {countdown != null && (
