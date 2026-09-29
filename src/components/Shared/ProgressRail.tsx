@@ -33,7 +33,7 @@ export function ProgressRail() {
         <img src={logo} alt="UOI, member of the UOB Group" className="h-12 w-auto" draggable={false} />
         <span className="h-9 w-px bg-line" />
         <span className="leading-tight">
-          <span className="block text-xl font-semibold text-primary">See what we see</span>
+          <span className="ai-text block text-xl font-semibold">See what we see</span>
           <span className="block text-xs text-muted">One claim file, shared by you and UOI</span>
         </span>
       </div>
@@ -41,7 +41,7 @@ export function ProgressRail() {
       {/* steps on a single track */}
       <div className="relative mx-auto w-[820px]">
         <div className="absolute left-[10%] right-[10%] top-[15px] h-[2px] rounded-full bg-page">
-          <div className="h-full rounded-full bg-primary transition-[width] duration-700" style={{ width: `${Math.max(0, pct)}%` }} />
+          <div className="ai-gradient h-full rounded-full transition-[width] duration-700" style={{ width: `${Math.max(0, pct)}%` }} />
         </div>
         <ol className="relative grid grid-cols-5">
           {PHASES.map((label, i) => {
@@ -52,8 +52,8 @@ export function ProgressRail() {
                 <span
                   className={cn(
                     "num grid h-8 w-8 place-items-center rounded-full text-xs font-semibold",
-                    done && "bg-primary text-white",
-                    active && "bg-primary text-white ring-4 ring-primary/15",
+                    done && "ai-gradient text-white",
+                    active && "ai-gradient text-white ring-4 ring-regal/20",
                     !done && !active && "bg-page text-faint ring-1 ring-line"
                   )}
                 >
