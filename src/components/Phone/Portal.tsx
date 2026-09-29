@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { BadgeCheck, Car, ChevronRight, Plane } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import { actions, useStore } from "@/engine/machine";
 import logo from "@/assets/uoi-logo.png";
+import { CarIcon, TravelIcon } from "./PolicyIcons";
 
 /** UOI customer portal home, signed in. The claim starts from the travel policy card,
     so the assistant already knows who the customer is and what they're covered for.
@@ -27,29 +28,18 @@ export function Portal() {
       </div>
 
       <p className="mt-3 text-2xl font-semibold text-ink">Good evening, {customer.first}</p>
-      <p className="mt-1 flex items-center gap-1.5 text-xs text-success">
-        <BadgeCheck size={14} /> Signed in with Singpass
+      <p className="mt-1.5 flex items-center gap-1.5 text-xs text-success">
+        <span className="grid h-4 w-4 place-items-center rounded-full bg-success text-white">
+          <Check size={11} strokeWidth={3.5} />
+        </span>
+        Signed in with Singpass
       </p>
 
       <p className="mt-7 text-sm font-semibold text-ink">Your coverage</p>
 
       {/* The policy the claim is about */}
       <div className="mt-3 rounded-lg bg-page p-4 shadow-card ring-1 ring-primary/15">
-        <div className="flex items-start gap-3">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] bg-info text-primary">
-            <Plane size={20} />
-          </span>
-          <div className="min-w-0 flex-1 leading-tight">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-base font-semibold text-ink">{policy.name}</span>
-              <span className="rounded-full bg-success-bg px-2 py-0.5 text-2xs font-medium text-success">In force</span>
-            </div>
-            <span className="num mt-1 block text-xs text-muted">{policy.number}</span>
-            <span className="mt-0.5 block text-xs text-muted">
-              {policy.destination} · {policy.period}
-            </span>
-          </div>
-        </div>
+        <PolicyRow icon={<TravelIcon />} name={policy.name} number={policy.number} detail={`${policy.destination} · ${policy.period}`} />
         <button
           data-portal-claim
           onClick={(e) => actions.startClaim(e.currentTarget)}
@@ -60,18 +50,31 @@ export function Portal() {
       </div>
 
       {/* Another policy, for realism */}
-      <div className="mt-3 flex items-center gap-3 rounded-lg bg-page p-4 opacity-70 shadow-card">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] bg-surface text-muted">
-          <Car size={20} />
-        </span>
-        <div className="min-w-0 flex-1 leading-tight">
-          <span className="block text-base font-semibold text-ink">UniCar</span>
-          <span className="num mt-1 block text-xs text-muted">PNF320104124A23 · In force</span>
+      <div className="mt-3 flex items-center gap-2 rounded-lg bg-page p-4 opacity-70 shadow-card">
+        <div className="min-w-0 flex-1">
+          <PolicyRow icon={<CarIcon />} name="UniCar" number="PNF320104124A23" detail="Private car · Renews Mar 2027" />
         </div>
-        <ChevronRight size={18} className="text-faint" />
+        <ChevronRight size={18} className="shrink-0 text-faint" />
       </div>
 
       <p className="mt-auto text-center text-2xs text-faint">UOI customer portal</p>
     </motion.div>
+  );
+}
+
+/** One policy: filled icon, name with status pill, number and detail. Same layout on every card. */
+function PolicyRow({ icon, name, number, detail }: { icon: React.ReactNode; name: string; number: string; detail: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] bg-info text-primary">{icon}</span>
+      <div className="min-w-0 flex-1 leading-tight">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-base font-semibold text-ink">{name}</span>
+          <span className="rounded-full bg-success-bg px-2 py-0.5 text-2xs font-medium text-success">In force</span>
+        </div>
+        <span className="num mt-1 block text-xs text-muted">{number}</span>
+        <span className="mt-0.5 block text-xs text-muted">{detail}</span>
+      </div>
+    </div>
   );
 }
