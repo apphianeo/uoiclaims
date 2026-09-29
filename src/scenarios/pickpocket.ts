@@ -15,10 +15,10 @@ export const pickpocket: Scenario = {
     { key: "items", label: "Items taken" },
     { key: "police", label: "Police report" },
     { key: "filed", label: "Report filed" },
-    { key: "cash", label: "Cash reported" },
-    { key: "wallet", label: "Wallet" },
-    { key: "passport", label: "Passport replacement" },
-    { key: "phone", label: "Phone" },
+    { key: "cash", label: "Cash reported", needs: "cash" },
+    { key: "wallet", label: "Wallet", needs: "wallet" },
+    { key: "passport", label: "Passport replacement", needs: "passport" },
+    { key: "phone", label: "Phone", needs: "phone" },
   ],
 
   opener: ["That sounds really stressful. Let's get this sorted together."],
@@ -65,7 +65,7 @@ export const pickpocket: Scenario = {
         { id: "passport", label: "Passport" },
         { id: "phone", label: "Phone" },
       ],
-      multi: { preselect: ["wallet", "cash", "passport", "phone"], confirm: "Next" },
+      multi: { preselect: ["wallet", "cash", "passport", "phone"], confirm: "Next", ackOne: "I'm sorry that happened. Let's get it sorted." },
       field: "items",
       ack: "I'm sorry, that's a lot to lose at once. We'll go through each one.",
     },
@@ -89,7 +89,7 @@ export const pickpocket: Scenario = {
   ],
 
   evidence: {
-    ask: "Now a few documents. Please attach your police report, wallet receipt and passport replacement receipt.",
+    ask: "Now for your documents. Please attach your {docs}.",
     docs: [
       {
         id: "police",
@@ -100,18 +100,26 @@ export const pickpocket: Scenario = {
           { k: "Date of report", v: "12 November 2026, 21:40", field: "filed", tag: "Report filed" },
           { k: "Place of incident", v: "Sukhumvit Soi 11, Bangkok", field: "place", tag: "Location" },
           { k: "Complainant", v: "Tan Wei Ling (Singapore)" },
-          { k: "Property lost", v: "Wallet, cash THB 7,500, passport, mobile phone", field: "cash", tag: "Cash reported" },
+          {
+            k: "Property lost",
+            v: "Wallet, cash THB 7,500, passport, mobile phone",
+            list: { wallet: "wallet", cash: "cash THB 7,500", passport: "passport", phone: "mobile phone" },
+            field: "cash",
+            tag: "Cash reported",
+            needs: "cash",
+          },
         ],
-        confirm: "Police report received. Filed in Bangkok on 12 Nov, lists wallet, cash, passport and phone.",
+        confirm: "Police report received. Filed in Bangkok on 12 Nov, lists your {items}.",
         fills: [
           { field: "filed", value: "12 Nov, 21:40" },
-          { field: "cash", value: "THB 7,500 (S$300)" },
+          { field: "cash", value: "THB 7,500 (S$300)", needs: "cash" },
         ],
       },
       {
         id: "wallet",
         name: "Wallet receipt",
         kind: "receipt",
+        needs: "wallet",
         header: { title: "Tan & Co. Leathergoods", subtitle: "Tax invoice · Singapore", ref: "INV 20394" },
         rows: [
           { k: "Date", v: "3 March 2026" },
@@ -125,6 +133,7 @@ export const pickpocket: Scenario = {
         id: "passport",
         name: "Passport replacement receipt",
         kind: "receipt",
+        needs: "passport",
         header: { title: "Embassy of Singapore, Bangkok", subtitle: "Receipt · Replacement passport", ref: "OR 77-5512" },
         rows: [
           { k: "Date", v: "13 November 2026" },
@@ -139,6 +148,7 @@ export const pickpocket: Scenario = {
       id: "phone",
       name: "Phone receipt",
       kind: "receipt",
+      needs: "phone",
       header: { title: "Gadget Hub", subtitle: "Tax invoice · Singapore", ref: "INV 88120" },
       rows: [
         { k: "Date", v: "2 January 2026" },
@@ -165,6 +175,9 @@ export const pickpocket: Scenario = {
       { id: "phone", item: "Phone", claimed: 900, rule: "No receipt: up to S$100 per item", plain: "Without a receipt, each item is covered up to S$100.", clause: "5.2(c)", eligible: 100, limited: true, backed: false },
     ],
   },
+
+  nothingYet:
+    "Without a receipt, your phone comes to S$100, and the S$100 excess cancels that out. Add the receipt and it goes up to S$500.",
 
   addDoc: {
     ask: "Sure. Attach your phone receipt and I'll update the assessment.",

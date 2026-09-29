@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import type { Chip, Doc, Line, Question, Scenario } from "./types";
+import type { Chip, Doc, FieldDef, Line, Question, Scenario } from "./types";
 import { SCENARIOS } from "@/scenarios";
 
 /* ─────────────────────────────── State ─────────────────────────────── */
@@ -17,7 +17,7 @@ export type Prompt =
   | { type: "portal" }
   | { type: "chips"; q: Question; selected: string[] }
   | { type: "tray"; docs: Doc[]; attached: string[]; busy: boolean }
-  | { type: "decision"; canAddDoc: boolean }
+  | { type: "decision"; canAddDoc: boolean; canAccept: boolean }
   | null;
 
 export type FieldVal = { value: string; source: "chat" | "doc"; sourceLabel: string; at: number };
@@ -39,6 +39,8 @@ export type State = {
   fields: Record<string, FieldVal>;
   /** The visitor's answers: question id -> chip id. */
   answers: Record<string, string>;
+  /** Items picked in the multi-select question (chip ids). Null: not itemised, so everything applies. */
+  picked: string[] | null;
   /** Policy and customer details have come across from the customer portal. */
   portal: boolean;
   flight: Flight | null;
@@ -50,6 +52,8 @@ export type State = {
   review: null | { checked: number; cursor: boolean; approved: boolean };
   paid: boolean;
   stamps: { submitted?: number; assessed?: number; reviewed?: number; paid?: number };
+  /** The visitor closed the summary to look around the finished screens. */
+  summaryClosed: boolean;
   staff: boolean;
 };
 
@@ -64,6 +68,7 @@ const fresh = (scenario: Scenario, phase: Phase, ghost = false): State => ({
   prompt: null,
   fields: {},
   answers: {},
+  picked: null,
   portal: false,
   flight: null,
   received: [],
@@ -74,6 +79,7 @@ const fresh = (scenario: Scenario, phase: Phase, ghost = false): State => ({
   review: null,
   paid: false,
   stamps: {},
+  summaryClosed: false,
   staff: state?.staff ?? false,
 });
 
@@ -103,25 +109,56 @@ export const payableOf = (lines: LineState[] | null, excess: number) =>
 export const scenarioById = (id: string) => SCENARIOS.find((s) => s.id === id) ?? SCENARIOS[0];
 
 
-/** All documents a scenario can show, in evidence-list order. */
-/** A document as the visitor sees it, adapted to their answers (e.g. only the photos
-    that match the damage they described). */
-export function resolveDoc(doc: Doc, answers: Record<string, string>): Doc {
-  if (!doc.dependsOn) return doc;
-  const chip = answers[doc.dependsOn];
+type Ctx = Pick<State, "scenario" | "answers" | "picked">;
+
+/** Is something that needs this item part of the claim? */
+export const has = (picked: string[] | null, needs?: string) => !needs || !picked || picked.includes(needs);
+
+/** "a, b and c" */
+export const listOf = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
+
+/** Words for the picked items, in the order they were offered. */
+function pickedWords(c: Ctx, words?: Record<string, string>) {
+  const q = c.scenario.questions.find((q) => q.multi);
+  if (!q) return [];
+  return q.chips.filter((ch) => has(c.picked, ch.id)).map((ch) => words?.[ch.id] ?? ch.label.toLowerCase());
+}
+
+/** A document as the visitor sees it, adapted to their answers: only the photos that
+    match the damage they described, only the items they said were taken. */
+export function resolveDoc(doc: Doc, c: Ctx): Doc {
+  const chip = doc.dependsOn ? c.answers[doc.dependsOn] : undefined;
   const v = (chip && doc.variants?.[chip]) || {};
+  const rows = (v.rows ?? doc.rows).map((r) => {
+    let row = r;
+    if (r.list) {
+      const text = listOf(pickedWords(c, r.list));
+      row = { ...row, v: text.charAt(0).toUpperCase() + text.slice(1) };
+    }
+    return has(c.picked, r.needs) ? row : { ...row, field: undefined, tag: undefined };
+  });
   return {
     ...doc,
     name: v.name ?? doc.name,
-    confirm: v.confirm ?? doc.confirm,
+    confirm: (v.confirm ?? doc.confirm).replace("{items}", listOf(pickedWords(c))),
     header: { ...doc.header, title: v.title ?? doc.header.title },
-    rows: v.rows ?? doc.rows,
+    rows,
+    fills: doc.fills.filter((f) => has(c.picked, f.needs)),
     photos: doc.photos?.filter((p) => !p.for || !chip || p.for.includes(chip)),
   };
 }
 
-export const allDocs = (s: Scenario, answers: Record<string, string> = {}) =>
-  [...s.evidence.docs, s.evidence.missing].map((d) => resolveDoc(d, answers));
+/** The documents this claim asks for, in order. */
+export const claimDocs = (c: Ctx) => c.scenario.evidence.docs.filter((d) => has(c.picked, d.needs)).map((d) => resolveDoc(d, c));
+/** The document missing at first, if this claim needs it at all. */
+export const missingDoc = (c: Ctx) => {
+  const m = c.scenario.evidence.missing;
+  return has(c.picked, m.needs) ? resolveDoc(m, c) : null;
+};
+/** Everything the evidence list shows. */
+export const allDocs = (c: Ctx) => [...claimDocs(c), ...[missingDoc(c)].filter((d): d is Doc => !!d)];
+/** Claim file fields for this claim. */
+export const claimFields = (c: Ctx): FieldDef[] => c.scenario.fields.filter((f) => has(c.picked, f.needs));
 
 /* ─────────────────────────────── Timing ─────────────────────────────── */
 
@@ -300,28 +337,39 @@ async function script(scenario: Scenario, ghost: boolean) {
     push({ from: "me", kind: "text", text: label });
     await fly(value, "chat", ans.from, q.field);
     fill(q.field, value, "chat", `Chat · ${clock(now())}`);
-    set((s) => ({ answers: { ...s.answers, [q.id]: ans.chips[0].id } }));
+    set((s) => ({
+      answers: { ...s.answers, [q.id]: ans.chips[0].id },
+      ...(q.multi ? { picked: ans.chips.map((c) => c.id) } : {}),
+    }));
     await S(250);
 
     const chipId = ans.chips[0].id;
     for (const m of q.detour?.[chipId] ?? []) await say(m);
-    const ack = typeof q.ack === "string" ? q.ack : q.ack?.[chipId];
+    const ack =
+      q.multi?.ackOne && ans.chips.length === 1 ? q.multi.ackOne : typeof q.ack === "string" ? q.ack : q.ack?.[chipId];
     if (ack) await say(ack);
   }
 
   /* ── 2. Evidence ── */
   set({ rail: 1 });
-  await say(scenario.evidence.ask);
-  await tray(scenario.evidence.docs.map((d) => resolveDoc(d, state.answers)));
-  await say(scenario.evidence.missingNote);
-  fill(scenario.evidence.missingFill.field, scenario.evidence.missingFill.value, "chat", "Declared in chat");
+  const docs = claimDocs(state);
+  const missing = missingDoc(state);
+  await say(scenario.evidence.ask.replace("{docs}", listOf(docs.map((d) => d.name.toLowerCase()))));
+  await tray(docs);
+  if (missing) {
+    await say(scenario.evidence.missingNote);
+    fill(scenario.evidence.missingFill.field, scenario.evidence.missingFill.value, "chat", "Declared in chat");
+  }
   set({ stamps: { submitted: now() } });
   await S(600);
 
   /* ── 3. Assessment ── */
   set({ rail: 2 });
   await say(scenario.assessment.intro);
-  set((s) => ({ lines: scenario.assessment.lines.map((l) => ({ ...l })), stamps: { ...s.stamps, assessed: now() } }));
+  set((s) => ({
+    lines: scenario.assessment.lines.filter((l) => has(s.picked, l.id)).map((l) => ({ ...l })),
+    stamps: { ...s.stamps, assessed: now() },
+  }));
   push({ from: "ai", kind: "assessment" });
   await S(1200);
 
@@ -334,9 +382,12 @@ async function script(scenario: Scenario, ghost: boolean) {
 
   /* ── 4. Decision ── */
   set({ rail: 3 });
-  let canAddDoc = true;
+  let canAddDoc = !!missing;
   for (;;) {
-    set({ prompt: { type: "decision", canAddDoc } });
+    // Nothing payable yet (e.g. only an item without a receipt): don't offer to accept S$0.
+    const canAccept = payableOf(state.lines, scenario.assessment.excess) > 0 || !canAddDoc;
+    if (!canAccept && scenario.nothingYet) await say(scenario.nothingYet);
+    set({ prompt: { type: "decision", canAddDoc, canAccept } });
     const choice = await waitFor<"accept" | "add" | "talk">("decide", id);
     set({ prompt: null });
     const payable = payableOf(state.lines, scenario.assessment.excess);
@@ -351,7 +402,7 @@ async function script(scenario: Scenario, ghost: boolean) {
       canAddDoc = false;
       push({ from: "me", kind: "text", text: "Add a document" });
       await say(scenario.addDoc.ask);
-      await tray([scenario.evidence.missing]);
+      await tray([missing!]);
       const { lineId, update } = scenario.addDoc;
       set((s) => ({
         prevPayable: payableOf(s.lines, scenario.assessment.excess),
@@ -442,6 +493,10 @@ export const actions = {
   },
   showDoc(docId: string) {
     if (state.received.includes(docId)) set({ activeDoc: docId });
+  },
+  /** Close the summary, or bring it back. */
+  showSummary(open: boolean) {
+    if (state.phase === "end") set({ summaryClosed: !open });
   },
   toggleStaff() {
     set({ staff: !state.staff });

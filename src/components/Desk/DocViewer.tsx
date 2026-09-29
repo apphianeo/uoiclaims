@@ -11,7 +11,8 @@ export function DocViewer() {
   const activeDoc = useStore((s) => s.activeDoc);
   const missingNamed = useStore((s) => !!s.fields[s.scenario.evidence.missingFill.field]);
   const answers = useStore((s) => s.answers);
-  const docs = allDocs(scenario, answers);
+  const picked = useStore((s) => s.picked);
+  const docs = allDocs({ scenario, answers, picked });
   const active = docs.find((d) => d.id === activeDoc);
 
   return (

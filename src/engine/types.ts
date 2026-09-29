@@ -2,7 +2,12 @@
 // matches these types; the UI renders whatever a scenario provides.
 
 /** A slot in the officer's claim file. */
-export type FieldDef = { key: string; label: string };
+export type FieldDef = {
+  key: string;
+  label: string;
+  /** Only part of the claim when this item was picked (chip id of the multi-select question). */
+  needs?: string;
+};
 
 export type Chip = {
   id: string;
@@ -17,7 +22,7 @@ export type Question = {
   ask: string;
   chips: Chip[];
   /** Multi-select: which chips start selected, and the confirm button text. */
-  multi?: { preselect: string[]; confirm: string };
+  multi?: { preselect: string[]; confirm: string; ackOne?: string };
   /** Claim file field this answer fills. */
   field: string;
   /** Acknowledgement after the answer. Per chip, or one for all. */
@@ -33,6 +38,10 @@ export type DocRow = {
   field?: string;
   /** Label on the highlight box. */
   tag?: string;
+  /** Only highlight (and extract) this row when this item was picked. */
+  needs?: string;
+  /** Build the value from the picked items: item id -> words, joined into a list. */
+  list?: Record<string, string>;
 };
 
 export type Doc = {
@@ -54,13 +63,16 @@ export type Doc = {
   dependsOn?: string;
   /** Per-answer overrides (keyed by chip id): name and confirmation. */
   variants?: Record<string, { name?: string; title?: string; confirm?: string; rows?: DocRow[] }>;
-  /** AI's plain-words confirmation once attached. */
+  /** Only requested when this item was picked. */
+  needs?: string;
+  /** AI's plain-words confirmation once attached. "{items}" becomes the picked items. */
   confirm: string;
   /** Claim file values this document provides. */
-  fills: { field: string; value: string }[];
+  fills: { field: string; value: string; needs?: string }[];
 };
 
 export type Line = {
+  /** Matches the item's chip id when the claim is itemised. */
   id: string;
   item: string;
   claimed: number;
@@ -87,6 +99,7 @@ export type Scenario = {
   opener: string[];
   questions: Question[];
   evidence: {
+    /** "{docs}" becomes the list of documents requested. */
     ask: string;
     docs: Doc[];
     /** The document that is missing at first. */
@@ -103,6 +116,8 @@ export type Scenario = {
     lines: Line[];
     excess: number;
   };
+  /** Said instead of offering Accept when the assessment comes to nothing without the missing document. */
+  nothingYet?: string;
   /** "Add a document" branch: attaching the missing document changes one line. */
   addDoc: { ask: string; lineId: string; update: Partial<Line>; after: string };
   callback: { time: string; after: string };

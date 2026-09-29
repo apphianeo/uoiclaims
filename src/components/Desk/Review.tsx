@@ -13,6 +13,7 @@ export function Review() {
   const scenario = useStore((s) => s.scenario);
   const lines = useStore((s) => s.lines);
   const stamps = useStore((s) => s.stamps);
+  const docCount = useStore((s) => s.received.length);
   const staff = useStore((s) => s.staff);
   const payable = payableOf(lines, scenario.assessment.excess);
   const list = scenario.review.checklist;
@@ -30,7 +31,7 @@ export function Review() {
 
       <ol className="mt-4 flex-1">
         <Step done title="Claim submitted" time={clock(stamps.submitted)}>
-          From the customer's phone, with {scenario.evidence.docs.length} documents
+          From the customer's phone, with {docCount} {docCount === 1 ? "document" : "documents"}
         </Step>
         <Step done title="Assessed" time={clock(stamps.assessed)}>
           {section} applied · {sgd(payable)} payable

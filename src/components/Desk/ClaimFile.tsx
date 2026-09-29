@@ -1,13 +1,16 @@
 import { motion } from "framer-motion";
 import { BadgeCheck, FileText, MessageSquare, MessagesSquare } from "lucide-react";
-import { useStore } from "@/engine/machine";
+import { claimFields, useStore } from "@/engine/machine";
 import { AiTag } from "@/components/Shared/Ai";
 
 /** The officer's claim file. Every field lands here from the chat or a document. */
 export function ClaimFile() {
   const scenario = useStore((s) => s.scenario);
   const fields = useStore((s) => s.fields);
-  const filled = scenario.fields.filter((f) => fields[f.key]).length;
+  const picked = useStore((s) => s.picked);
+  // Only the fields this claim needs (e.g. no Wallet slot when only a phone was taken)
+  const defs = claimFields({ scenario, picked, answers: {} });
+  const filled = defs.filter((f) => fields[f.key]).length;
   const portal = useStore((s) => s.portal);
 
   return (
@@ -49,17 +52,17 @@ export function ClaimFile() {
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface">
           <motion.div
             className="ai-gradient h-full rounded-full"
-            animate={{ width: `${(filled / scenario.fields.length) * 100}%` }}
+            animate={{ width: `${(filled / defs.length) * 100}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           />
         </div>
         <span className="num whitespace-nowrap text-xs text-muted">
-          {filled} of {scenario.fields.length} fields
+          {filled} of {defs.length} fields
         </span>
       </div>
 
       <dl className="grid flex-1 auto-rows-min grid-cols-2 gap-x-2 px-3 pb-3">
-        {scenario.fields.map((f) => {
+        {defs.map((f) => {
           const v = fields[f.key];
           return (
             <div key={f.key} data-field={f.key} className="relative flex h-[58px] items-center rounded-sm px-3">

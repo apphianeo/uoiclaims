@@ -72,12 +72,14 @@ export function Composer() {
 
           {prompt?.type === "decision" && (
             <div className="flex flex-col gap-2">
-              <button
-                onClick={() => actions.decide("accept")}
-                className="num h-14 rounded-full bg-primary text-lg font-semibold text-white shadow-pop"
-              >
-                Accept {sgd(payableOf(lines, excess))}
-              </button>
+              {prompt.canAccept && (
+                <button
+                  onClick={() => actions.decide("accept")}
+                  className="num h-14 rounded-full bg-primary text-lg font-semibold text-white shadow-pop"
+                >
+                  Accept {sgd(payableOf(lines, excess))}
+                </button>
+              )}
               <div className="flex gap-2">
                 {prompt.canAddDoc && (
                   <button
