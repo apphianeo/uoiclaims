@@ -23,7 +23,7 @@ function Amount({ value, prev, className, gradient }: { value: number; prev?: nu
       {changed && <span className="text-[0.8em] font-normal text-faint line-through">{sgd(prev!)}</span>}
       <motion.span
         key={value}
-        className={cn("inline-block", gradient && "text-primary")}
+        className={cn("inline-block", gradient && "ai-text")}
         initial={changed ? { scale: 1.3, opacity: 0.3 } : false}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -46,6 +46,8 @@ export function AssessmentCard() {
 
   return (
     <section className="relative min-h-[196px] overflow-hidden rounded-lg bg-page text-ink shadow-card">
+      {/* AI-produced: a thin brand-gradient edge once the assessment exists */}
+      {lines && <span className="ai-gradient absolute inset-x-0 top-0 z-10 h-[3px]" />}
       <AnimatePresence mode="wait" initial={false}>
         {!lines ? (
           <motion.div key="empty" exit={{ opacity: 0 }} className="flex h-[196px] flex-col items-center justify-center gap-2 text-faint">
@@ -131,7 +133,7 @@ export function AssessmentCard() {
                 <div className="mt-3 flex items-center gap-2 text-2xs text-muted">
                   <span className="flex gap-0.5">
                     {lines.map((l) => (
-                      <span key={l.id} className={l.backed ? "h-1.5 w-5 rounded-full bg-primary" : "h-1.5 w-5 rounded-full bg-chip"} />
+                      <span key={l.id} className={l.backed ? "ai-gradient h-1.5 w-5 rounded-full" : "h-1.5 w-5 rounded-full bg-chip"} />
                     ))}
                   </span>
                   {backed === lines.length
@@ -153,7 +155,8 @@ export function PhoneAssessment() {
   const { lines, a, payable, prevPayable } = useAssessment();
   if (!lines) return null;
   return (
-    <div data-phone-assessment className="w-full overflow-hidden rounded-[20px] bg-page shadow-card ring-1 ring-regal/20">
+    <div data-phone-assessment className="relative w-full overflow-hidden rounded-[20px] bg-page shadow-card ring-1 ring-regal/20">
+      <span className="ai-gradient absolute inset-x-0 top-0 h-[3px]" />
       <div className="ai-tint flex items-center justify-between px-4 py-2.5">
         <span className="text-sm font-semibold">Your assessment</span>
         <span className="text-2xs font-medium text-primary">Same as UOI sees</span>
