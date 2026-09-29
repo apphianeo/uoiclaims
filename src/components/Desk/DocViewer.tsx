@@ -10,7 +10,8 @@ export function DocViewer() {
   const received = useStore((s) => s.received);
   const activeDoc = useStore((s) => s.activeDoc);
   const missingNamed = useStore((s) => !!s.fields[s.scenario.evidence.missingFill.field]);
-  const docs = allDocs(scenario);
+  const answers = useStore((s) => s.answers);
+  const docs = allDocs(scenario, answers);
   const active = docs.find((d) => d.id === activeDoc);
 
   return (

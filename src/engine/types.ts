@@ -44,7 +44,16 @@ export type Doc = {
   rows: DocRow[];
   /** Photo documents: portrait (3:4) images, each with the AI's marked-up
       regions as percentages of the image. */
-  photos?: { src: string; marks: { x: number; y: number; w: number; h: number; tag: string; field?: string }[] }[];
+  photos?: {
+    src: string;
+    marks: { x: number; y: number; w: number; h: number; tag: string; field?: string }[];
+    /** Only show this photo for these answers to `dependsOn` (chip ids). Omit to always show. */
+    for?: string[];
+  }[];
+  /** The document adapts to the answer to this question (question id). */
+  dependsOn?: string;
+  /** Per-answer overrides (keyed by chip id): name and confirmation. */
+  variants?: Record<string, { name?: string; title?: string; confirm?: string; rows?: DocRow[] }>;
   /** AI's plain-words confirmation once attached. */
   confirm: string;
   /** Claim file values this document provides. */

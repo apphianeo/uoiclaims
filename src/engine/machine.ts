@@ -37,6 +37,8 @@ export type State = {
   typing: boolean;
   prompt: Prompt;
   fields: Record<string, FieldVal>;
+  /** The visitor's answers: question id -> chip id. */
+  answers: Record<string, string>;
   /** Policy and customer details have come across from the customer portal. */
   portal: boolean;
   flight: Flight | null;
@@ -61,6 +63,7 @@ const fresh = (scenario: Scenario, phase: Phase, ghost = false): State => ({
   typing: false,
   prompt: null,
   fields: {},
+  answers: {},
   portal: false,
   flight: null,
   received: [],
@@ -101,7 +104,24 @@ export const scenarioById = (id: string) => SCENARIOS.find((s) => s.id === id) ?
 
 
 /** All documents a scenario can show, in evidence-list order. */
-export const allDocs = (s: Scenario) => [...s.evidence.docs, s.evidence.missing];
+/** A document as the visitor sees it, adapted to their answers (e.g. only the photos
+    that match the damage they described). */
+export function resolveDoc(doc: Doc, answers: Record<string, string>): Doc {
+  if (!doc.dependsOn) return doc;
+  const chip = answers[doc.dependsOn];
+  const v = (chip && doc.variants?.[chip]) || {};
+  return {
+    ...doc,
+    name: v.name ?? doc.name,
+    confirm: v.confirm ?? doc.confirm,
+    header: { ...doc.header, title: v.title ?? doc.header.title },
+    rows: v.rows ?? doc.rows,
+    photos: doc.photos?.filter((p) => !p.for || !chip || p.for.includes(chip)),
+  };
+}
+
+export const allDocs = (s: Scenario, answers: Record<string, string> = {}) =>
+  [...s.evidence.docs, s.evidence.missing].map((d) => resolveDoc(d, answers));
 
 /* ─────────────────────────────── Timing ─────────────────────────────── */
 
@@ -280,6 +300,7 @@ async function script(scenario: Scenario, ghost: boolean) {
     push({ from: "me", kind: "text", text: label });
     await fly(value, "chat", ans.from, q.field);
     fill(q.field, value, "chat", `Chat · ${clock(now())}`);
+    set((s) => ({ answers: { ...s.answers, [q.id]: ans.chips[0].id } }));
     await S(250);
 
     const chipId = ans.chips[0].id;
@@ -291,7 +312,7 @@ async function script(scenario: Scenario, ghost: boolean) {
   /* ── 2. Evidence ── */
   set({ rail: 1 });
   await say(scenario.evidence.ask);
-  await tray(scenario.evidence.docs);
+  await tray(scenario.evidence.docs.map((d) => resolveDoc(d, state.answers)));
   await say(scenario.evidence.missingNote);
   fill(scenario.evidence.missingFill.field, scenario.evidence.missingFill.value, "chat", "Declared in chat");
   set({ stamps: { submitted: now() } });

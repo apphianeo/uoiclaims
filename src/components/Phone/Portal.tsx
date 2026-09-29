@@ -10,9 +10,12 @@ import { CarIcon, TravelIcon } from "./PolicyIcons";
 export function Portal() {
   const scenario = useStore((s) => s.scenario);
   const { customer, policy } = scenario;
-  // Two letters: first and last name ("Wei Ling Tan" -> "WT")
-  const parts = customer.name.split(" ");
-  const initials = parts[0][0] + parts[parts.length - 1][0];
+  // Two letters from the name she goes by ("Wei Ling" -> "WL")
+  const initials = customer.first
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2);
 
   return (
     <motion.div

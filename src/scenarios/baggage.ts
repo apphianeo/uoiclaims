@@ -65,7 +65,7 @@ export const baggage: Scenario = {
   ],
 
   evidence: {
-    ask: "Now two documents. Please attach photos of the suitcase and the airline's damage report.",
+    ask: "Now two documents. Please attach your photo of the damage and the airline's damage report.",
     docs: [
       {
         id: "photo",
@@ -73,10 +73,24 @@ export const baggage: Scenario = {
         kind: "photo",
         header: { title: "2 photos", subtitle: "Taken 16 Nov 2026, Changi Airport" },
         rows: [],
+        // Only the photo(s) matching the damage the visitor described are shown.
+        dependsOn: "damage",
         photos: [
-          { src: shellPhoto, marks: [{ x: 33, y: 8, w: 34, h: 61, tag: "Cracked shell", field: "damage" }] },
-          { src: wheelPhoto, marks: [{ x: 11, y: 11, w: 40, h: 28, tag: "Wheel snapped off", field: "photo" }] },
+          { src: shellPhoto, for: ["shell", "both"], marks: [{ x: 33, y: 8, w: 34, h: 61, tag: "Cracked shell", field: "damage" }] },
+          { src: wheelPhoto, for: ["wheel", "both"], marks: [{ x: 11, y: 11, w: 40, h: 28, tag: "Wheel snapped off", field: "photo" }] },
         ],
+        variants: {
+          shell: {
+            name: "Photo of suitcase",
+            title: "1 photo",
+            confirm: "Photo received. It shows a cracked shell, which matches what you told me.",
+          },
+          wheel: {
+            name: "Photo of suitcase",
+            title: "1 photo",
+            confirm: "Photo received. It shows a wheel snapped off its axle, which matches what you told me.",
+          },
+        },
         confirm: "Photos received. They show a cracked shell and a wheel snapped off its axle, which matches what you told me.",
         fills: [{ field: "photo", value: "Matches your description" }],
       },
@@ -91,6 +105,26 @@ export const baggage: Scenario = {
           { k: "Damage noted", v: "Shell cracked, wheel detached" },
           { k: "Repair estimate", v: "S$150.00", field: "repair", tag: "Repair estimate" },
         ],
+        // The damage noted by the airline matches what the visitor described.
+        dependsOn: "damage",
+        variants: {
+          shell: {
+            rows: [
+              { k: "Flight", v: "SQ 708, BKK to SIN", field: "flight", tag: "Flight" },
+              { k: "Date filed", v: "16 November 2026, 07:55", field: "pir", tag: "Airline report" },
+              { k: "Damage noted", v: "Shell cracked" },
+              { k: "Repair estimate", v: "S$150.00", field: "repair", tag: "Repair estimate" },
+            ],
+          },
+          wheel: {
+            rows: [
+              { k: "Flight", v: "SQ 708, BKK to SIN", field: "flight", tag: "Flight" },
+              { k: "Date filed", v: "16 November 2026, 07:55", field: "pir", tag: "Airline report" },
+              { k: "Damage noted", v: "Wheel detached" },
+              { k: "Repair estimate", v: "S$150.00", field: "repair", tag: "Repair estimate" },
+            ],
+          },
+        },
         confirm: "Airline damage report received. Filed at Changi on 16 Nov, estimates the repair at S$150.",
         fills: [
           { field: "pir", value: "16 Nov, 07:55" },
