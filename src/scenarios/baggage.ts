@@ -8,7 +8,7 @@ export const baggage: Scenario = {
   id: "baggage",
   picker: { label: "My suitcase was damaged on my flight", hint: "Bangkok to Singapore", icon: "luggage" },
   customer: { name: "Wei Ling Tan", first: "Wei Ling" },
-  policy: { name: "UOI Travel Insurance", number: "TRV-2026-084512", period: "8–16 Nov 2026", destination: "Thailand" },
+  policy: { name: "UniTravel", number: "TRV-2026-084512", period: "8–16 Nov 2026", destination: "Thailand" },
   claimRef: "CLM-2026-11-0419",
 
   fields: [

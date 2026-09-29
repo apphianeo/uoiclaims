@@ -12,13 +12,12 @@ export function EndScreen() {
   const phase = useStore((s) => s.phase);
   const stamps = useStore((s) => s.stamps);
   const startedAt = useStore((s) => s.startedAt) ?? 0;
-  const scenario = useStore((s) => s.scenario);
   const paid = useStore((s) => payableOf(s.lines, s.scenario.assessment.excess));
   const steps = [
-    { label: "You submitted", t: stamps.submitted },
-    { label: "AI assessed", t: stamps.assessed },
-    { label: "UOI approved", t: stamps.reviewed },
-    { label: "You were paid", t: stamps.paid },
+    { label: "Submitted", t: stamps.submitted },
+    { label: "Assessed", t: stamps.assessed },
+    { label: "Approved", t: stamps.reviewed },
+    { label: "Paid", t: stamps.paid },
   ];
 
   return (
@@ -36,16 +35,12 @@ export function EndScreen() {
             transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }}
             className="w-[1040px] rounded-xl bg-page px-16 py-12 text-center shadow-pop ring-1 ring-line"
           >
-            <p className="num text-base text-muted">
-              {scenario.customer.first}'s claim: {sgd(paid)} paid in {mmss((stamps.paid ?? 0) - startedAt)}
-            </p>
-            <h1 className="mx-auto mt-3 max-w-[820px] text-balance text-[46px] font-bold leading-tight tracking-tight text-ink">
-              You and UOI saw the same claim
-              <br />
-              <span className="text-primary">from first answer to payout</span>
+            <p className="text-base font-medium text-primary">Claim complete</p>
+            <h1 className="num mx-auto mt-2 text-[52px] font-bold leading-tight tracking-tight text-ink">
+              {sgd(paid)} paid in {mmss((stamps.paid ?? 0) - startedAt)}
             </h1>
-            <p className="mx-auto mt-4 max-w-[680px] text-lg text-muted">
-              Everything you told us and sent us went straight into the file UOI reviewed. The assessment on your phone is the one UOI used to pay you.
+            <p className="mx-auto mt-3 max-w-[640px] text-lg text-muted">
+              One conversation, one shared file, and you always knew why.
             </p>
 
             <ol className="relative mx-auto mt-10 grid max-w-[820px] grid-cols-4">
