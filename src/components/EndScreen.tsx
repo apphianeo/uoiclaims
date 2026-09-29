@@ -36,7 +36,7 @@ export function EndScreen() {
             className="w-[1040px] rounded-xl bg-page px-16 py-12 text-center shadow-pop ring-1 ring-line"
           >
             <p className="text-base font-medium text-primary">Claim complete</p>
-            <h1 className="num mx-auto mt-2 text-[52px] font-bold leading-tight tracking-tight text-ink">
+            <h1 className="num ai-text mx-auto mt-2 text-[52px] font-bold leading-tight tracking-tight">
               {sgd(paid)} paid in {mmss((stamps.paid ?? 0) - startedAt)}
             </h1>
             <p className="mx-auto mt-3 max-w-[640px] text-lg text-muted">
@@ -44,7 +44,7 @@ export function EndScreen() {
             </p>
 
             <ol className="relative mx-auto mt-10 grid max-w-[820px] grid-cols-4">
-              <span className="absolute left-[12.5%] right-[12.5%] top-[19px] h-[2px] bg-primary" />
+              <span className="ai-gradient absolute left-[12.5%] right-[12.5%] top-[19px] h-[2px]" />
               {steps.map((s, i) => (
                 <motion.li
                   key={s.label}
@@ -53,7 +53,7 @@ export function EndScreen() {
                   transition={{ delay: 0.4 + i * 0.18 }}
                   className="relative flex flex-col items-center gap-2"
                 >
-                  <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-white">
+                  <span className="ai-gradient grid h-10 w-10 place-items-center rounded-full text-white">
                     <Check size={18} strokeWidth={3} />
                   </span>
                   <span className="text-base font-semibold text-ink">{s.label}</span>
