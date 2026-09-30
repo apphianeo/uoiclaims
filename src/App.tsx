@@ -5,7 +5,7 @@ import { Phone } from "@/components/Phone/Phone";
 import { Desk } from "@/components/Desk/Desk";
 import { Connectors, Flight } from "@/components/Shared/LiveLink";
 import { Attract } from "@/components/Attract";
-import { EndScreen } from "@/components/EndScreen";
+import { EndScreen, SummaryBar } from "@/components/EndScreen";
 import { useStore } from "@/engine/machine";
 import { useKiosk } from "@/hooks/useKiosk";
 
@@ -15,7 +15,8 @@ const STAGE_H = 1080;
 /** Scale the fixed 1920×1080 stage to fit any window, letterboxed. */
 function useStageScale() {
   // 0.92 leaves a margin of background around the stage on every side
-  const calc = () => Math.min(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H) * 0.92;
+  const calc = () =>
+    Math.min(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H) * 0.92;
   const [scale, setScale] = useState(calc);
   useEffect(() => {
     const onResize = () => setScale(calc());
@@ -31,20 +32,30 @@ export default function App() {
   const staff = useStore((s) => s.staff);
 
   return (
-    <div className="kiosk relative h-full w-full overflow-hidden bg-night" onContextMenu={(e) => e.preventDefault()}>
+    <div
+      className="kiosk relative h-full w-full overflow-hidden bg-night"
+      onContextMenu={(e) => e.preventDefault()}
+    >
       {/* Calm sky-to-white canvas, painted on the full window so it never shows an edge */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#eaf3ff] to-[#f8fafd]" />
       {/* Fixed 1920×1080 stage, scaled to fit and centred exactly */}
       <div
         data-stage
         className="absolute left-1/2 top-1/2 flex flex-col"
-        style={{ width: STAGE_W, height: STAGE_H, transform: `translate(-50%, -50%) scale(${scale})` }}
+        style={{
+          width: STAGE_W,
+          height: STAGE_H,
+          transform: `translate(-50%, -50%) scale(${scale})`,
+        }}
       >
         <ProgressRail />
 
         <main className="relative flex min-h-0 flex-1">
           <section className="flex shrink-0 items-center pl-14 pr-16">
-            <Phone />
+            <div className="relative">
+              <Phone />
+              <SummaryBar />
+            </div>
           </section>
 
           <LiveSeam />
@@ -55,8 +66,13 @@ export default function App() {
         </main>
 
         <footer className="relative flex h-12 shrink-0 items-center justify-center gap-4 text-2xs text-faint">
-          Illustrative demo. Figures and policy wording are not actual UOI policy terms.
-          {staff && <span className="rounded-full bg-info px-2 py-0.5 font-medium text-primary">Staff mode</span>}
+          Illustrative demo. Figures and policy wording are not actual UOI
+          policy terms.
+          {staff && (
+            <span className="rounded-full bg-info px-2 py-0.5 font-medium text-primary">
+              Staff mode
+            </span>
+          )}
         </footer>
 
         <Connectors />
@@ -74,8 +90,12 @@ export default function App() {
             >
               <div className="rounded-xl bg-page px-14 py-10 text-center shadow-pop ring-1 ring-line">
                 <p className="text-2xl font-bold text-ink">Still there?</p>
-                <p className="num mt-2 text-base text-muted">Starting over in {countdown} seconds.</p>
-                <button className="mt-6 h-14 rounded-full bg-primary px-10 text-lg font-semibold text-white">I'm still here</button>
+                <p className="num mt-2 text-base text-muted">
+                  Starting over in {countdown} seconds.
+                </p>
+                <button className="mt-6 h-14 rounded-full bg-primary px-10 text-lg font-semibold text-white">
+                  I'm still here
+                </button>
               </div>
             </motion.div>
           )}
@@ -94,7 +114,9 @@ function LiveSeam() {
         <span className="relative grid h-11 w-11 place-items-center rounded-full bg-page shadow-pop">
           <span className="live-pulse ai-gradient h-3 w-3 rounded-full" />
         </span>
-        <span className="whitespace-nowrap rounded-full bg-night px-2 text-2xs font-medium text-muted">Live</span>
+        <span className="whitespace-nowrap rounded-full bg-night px-2 text-2xs font-medium text-muted">
+          Live
+        </span>
       </div>
     </div>
   );

@@ -38,8 +38,8 @@ export function ProgressRail() {
         </span>
       </div>
 
-      {/* steps on a single track */}
-      <div className="relative mx-auto w-[820px]">
+      {/* steps on a single track, centred on the stage */}
+      <div className="absolute left-1/2 top-1/2 w-[760px] -translate-x-1/2 -translate-y-1/2">
         <div className="absolute left-[10%] right-[10%] top-[15px] h-[2px] rounded-full bg-page">
           <div className="ai-gradient h-full rounded-full transition-[width] duration-700" style={{ width: `${Math.max(0, pct)}%` }} />
         </div>
@@ -68,7 +68,7 @@ export function ProgressRail() {
         </ol>
       </div>
 
-      <div className="w-[240px] text-right leading-tight">
+      <div className="ml-auto w-[240px] text-right leading-tight">
         <span className="num flex items-center justify-end gap-1.5 text-xl font-semibold text-ink">
           <Timer size={18} className="text-muted" />
           {elapsed}

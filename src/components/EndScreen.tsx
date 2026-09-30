@@ -98,15 +98,23 @@ export function EndScreen() {
           </motion.div>
         )}
       </AnimatePresence>
+    </>
+  );
+}
 
-      {/* Summary closed: a small bar under the phone to reopen it or start again */}
+/** Summary closed: a small bar centred 24px under the phone, to reopen it or start again. */
+export function SummaryBar() {
+  const phase = useStore((s) => s.phase);
+  const closed = useStore((s) => s.summaryClosed);
+  return (
+    <>
       <AnimatePresence>
         {phase === "end" && closed && (
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
-            className="absolute bottom-3 left-[126px] z-50 flex w-[400px] justify-center whitespace-nowrap"
+            className="absolute inset-x-0 top-full z-50 mt-6 flex justify-center whitespace-nowrap"
           >
             <div className="flex items-center gap-2 rounded-full bg-page p-1.5 shadow-pop ring-1 ring-line">
               <button
